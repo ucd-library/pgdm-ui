@@ -1,0 +1,33 @@
+{
+  "name": "@ucd-lib/pgdm-ui",
+  "version": "0.0.1",
+  "description": "GUI for PGDM",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "watch": "cd app && webpack --config webpack-watch.config.js --watch"
+  },
+  "repository": "",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "@ucd-lib/cork-app-build": "^0.1.5",
+    "electron": "^4.0.4",
+    "webpack": "^4.29.5",
+    "webpack-cli": "^3.2.3"
+  },
+  "dependencies": {
+    "@polymer/iron-pages": "^3.0.1",
+    "@polymer/polymer": "^3.1.0",
+    "@ucd-lib/cork-app-state": "^0.2.0",
+    "@ucd-lib/cork-app-utils": "^4.1.2",
+    "@ucd-lib/pgdm": "0.0.2"
+  }
+}

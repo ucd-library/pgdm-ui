@@ -1,0 +1,36 @@
+<style>
+  :host {
+    display: block;
+  }
+</style>
+
+<h2>Connect</h2>
+
+<div>Saved Connections</div>
+<dom-repeat items="[[services]]">
+  <template>
+    <div on-click="_onServiceClicked">[[item.name]]</div>
+  </template>
+</dom-repeat>
+
+<div>New Connection</div>
+<div>
+  <div>Host</div>
+  <div><input type="text" id="host" /></div>
+  
+  <div>Port</div>
+  <div><input type="number" id="port" value="5432" /></div>
+  
+  <div>Username</div>
+  <div><input type="text" id="username" /></div>
+  
+  <div>Password</div>
+  <div><input type="password" id="password" /></div>
+
+  <div>SSL</div>
+  <div><input type="checkbox" id="ssl" /> Require SSL</div>
+</div>
+
+<div hidden$="[[!connected]]">
+  <a on-click="_onDisconnectClicked">Disconnect</a>
+</div>
