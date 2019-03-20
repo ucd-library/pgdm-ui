@@ -20,14 +20,21 @@
   "devDependencies": {
     "@ucd-lib/cork-app-build": "^0.1.5",
     "electron": "^4.0.4",
-    "webpack": "^4.29.5",
+    "webpack": "^4.28.4",
     "webpack-cli": "^3.2.3"
   },
   "dependencies": {
+    "@polymer/iron-icons": "^3.0.1",
     "@polymer/iron-pages": "^3.0.1",
+    "@polymer/paper-icon-button": "^3.0.2",
     "@polymer/polymer": "^3.1.0",
-    "@ucd-lib/cork-app-state": "^0.2.0",
+    "@ucd-lib/cork-app-state": "^1.0.0",
     "@ucd-lib/cork-app-utils": "^4.1.2",
-    "@ucd-lib/pgdm": "0.0.2"
+    "@ucd-lib/pgdm": "0.0.2",
+    "csv": "^5.1.1",
+    "i": "^0.3.6",
+    "multi-ini": "^2.0.0",
+    "pg": "^7.8.1",
+    "pg-cursor": "^2.0.0"
   }
 }

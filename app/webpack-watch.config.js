@@ -15,4 +15,15 @@ let config = require('@ucd-lib/cork-app-build').watch({
 
 config.target = 'electron-renderer';
 
+// config.module.rules.push({
+//   test: /\.tpl\.html$/,
+//   // test : /\.tpl\.js$/,
+//   use: [
+//     {
+//       loader: path.resolve('../webpack/template-loader.js'),
+//       options: {/* ... */}
+//     }
+//   ]
+// })
+
 module.exports = config;

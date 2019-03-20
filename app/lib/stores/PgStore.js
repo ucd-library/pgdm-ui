@@ -47,6 +47,13 @@ class PgStore extends BaseStore {
     });
   }
 
+  setServiceDeleted(name) {
+    this._setServiceState({
+      state : this.STATE.DELETED,
+      id : name
+    });
+  }
+
   _setServiceState(state) {
     this.data.services[state.id] = state;
     this.emit(this.events.PG_SERVICE_UPDATE, state);

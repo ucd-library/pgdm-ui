@@ -5,7 +5,8 @@ import "@polymer/polymer"
 import "@polymer/iron-pages"
 
 import "@ucd-lib/cork-app-utils"
-import "../lib"
+import lib from "../lib"
+window.APP = lib;
 
 import "./pages/connect/app-page-connect"
 
