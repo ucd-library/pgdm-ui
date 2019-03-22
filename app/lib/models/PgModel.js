@@ -130,7 +130,7 @@ class PgModel extends BaseModel {
     let fnName = info.routine_definition.match(/PERFORM *(\w+) *\(/);
 
     if( !fnName ) return null;
-    fnName = fnName[0];
+    fnName = fnName[1];
 
     let requiredViewParams = info.routine_definition.replace(/\n/g,'').match(/PERFORM *\w+ *\((.*)\);/);
     if( requiredViewParams ) {

@@ -1,25 +1,22 @@
-import {PolymerElement, html} from "@polymer/polymer"
-import template from "./app-insert.html"
+import { LitElement } from 'lit-element';
+import render from "./app-insert.tpl.js"
+import '@vaadin/vaadin-upload/vaadin-upload.js';
 
-export default class AppInsert extends Mixin(PolymerElement)
-  .with(EventInterface) {
-
-  static get template() {
-    return html([template]);
-  }
+export default class AppInsert extends Mixin(LitElement)
+  .with(LitCorkUtils) {
 
   static get properties() {
     return {
-      tables : {
-        type : Array,
-        value : () => []
-      }  
+      tables : {type: Array}
     }
   }
 
   constructor() {
     super();
-    this._injectModel('PgModel');
+    this.render = render.bind(this);
+    this._injectModel('PgModel', 'PgdmModel');
+
+    this.tables = [];
   }
 
   /**
@@ -31,9 +28,35 @@ export default class AppInsert extends Mixin(PolymerElement)
   _onPgTablesUpdate(e) {
     if( e.state !== 'loaded' ) return;
     this.tables = e.payload;
-    this.$.tables.innerHTML = this.tables
-      .map(table => `<option value="${table.table_view}">${table.table_view}</option>`)
-      .join('');
+  }
+
+  _onTableChange(e) {
+    let val = this.byId('tables').value;
+    console.log(val);
+  }
+
+  _onFilesChanged(e) {
+    e.preventDefault();
+
+    this.file = e.detail.file;
+    this.PgdmModel.insert(this.file.path, this.byId('tables').value);
+  }
+
+  _onPgdmInsertUpdate(e) {
+    if( e.state === 'inserting' ) {
+      this._setFileStatus(e.payload);
+    } else if( e.state === 'error' ) {
+      console.log(e);
+      alert(e.error.message);
+      this.byId('upload').files = [];
+    }
+  }
+
+  _setFileStatus(status) {
+    this.file.progress = status.current;
+    this.file.held = false;
+    this.file.status = `Inserting row ${status.current}/${status.total}`;
+    this.byId('upload')._notifyFileChanges(this.file);
   }
 
 }
