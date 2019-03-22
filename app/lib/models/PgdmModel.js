@@ -37,6 +37,32 @@ class PgdmModel extends BaseModel {
     } catch(e) {
       this.store.onInsertError(e);
     }
+    return this.store.data.insert;
+  }
+
+  async list(query) {
+    if( query.source ) query.source = '%'+query.source+'%';
+    if( query.view ) query.view = '%'+query.view+'%';
+
+    this.store.onListStart(query);
+    try {
+      let result = await model.list(query.source, query.view);
+      this.store.onListComplete(query, result);
+    } catch(e) {
+      this.store.onListError(query, e);
+    }
+    return this.store.data.list;
+  }
+
+  async delete(source) {
+    this.store.onDeleteStart(source)
+    try {    
+      await model.delete(source);
+      this.store.onDeleteComplete(source);
+    } catch(e) {
+      this.store.onDeleteError(source, e);
+    }
+    return this.store.data.delete;
   }
 
 }

@@ -30,11 +30,6 @@ export default class AppInsert extends Mixin(LitElement)
     this.tables = e.payload;
   }
 
-  _onTableChange(e) {
-    let val = this.byId('tables').value;
-    console.log(val);
-  }
-
   _onFilesChanged(e) {
     e.preventDefault();
 
@@ -46,9 +41,11 @@ export default class AppInsert extends Mixin(LitElement)
     if( e.state === 'inserting' ) {
       this._setFileStatus(e.payload);
     } else if( e.state === 'error' ) {
-      console.log(e);
       alert(e.error.message);
       this.byId('upload').files = [];
+    } else if( e.state === 'complete' ) {
+      this.byId('upload').files = [];
+      alert('Success!');
     }
   }
 

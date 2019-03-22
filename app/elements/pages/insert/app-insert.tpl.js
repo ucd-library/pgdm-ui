@@ -13,7 +13,7 @@ return html`
 
 <div>
   Select table view to insert into: 
-  <select id="tables" @change="${this._onTableChange}">
+  <select id="tables">
     ${this.tables.map(table => html`<option value="${table.table_view}">${table.table_view}</option>`)}
   </select>
 </div>

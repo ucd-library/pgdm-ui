@@ -12,6 +12,7 @@ window.APP = lib;
 import "./utils/app-nav"
 import "./pages/connect/app-page-connect"
 import "./pages/insert/app-insert"
+import "./pages/delete/app-delete"
 
 export default class PgdmApp extends Mixin(PolymerElement)
   .with(EventInterface) {
@@ -37,7 +38,7 @@ export default class PgdmApp extends Mixin(PolymerElement)
 
   async ready() {
     super.ready();
-    this._onAppStateUpdate(await this.AppStateModel.get());
+    window.location.hash = 'connect'
   }
 
   /**
@@ -45,7 +46,6 @@ export default class PgdmApp extends Mixin(PolymerElement)
    * @description bound to app state update events
    */
   _onAppStateUpdate(e) {
-    console.log(e);
     this.page = e.location.page;
   }
 
