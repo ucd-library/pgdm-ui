@@ -32,8 +32,16 @@
           host: [[item.host]]:[[item.port]]
         </div>
       </div>
-      <paper-icon-button icon="create" on-click="_onEditClicked" index$="[[index]]"></paper-icon-button>
-      <paper-icon-button icon="arrow-forward"></paper-icon-button>
+      <paper-icon-button 
+        icon="create" 
+        on-click="_onEditClicked" 
+        index$="[[index]]">
+      </paper-icon-button>
+      <paper-icon-button 
+        icon="arrow-forward"
+        on-click="_onConnectClicked" 
+        index$="[[index]]">
+      </paper-icon-button>
     </div>
   </template>
 </dom-repeat>

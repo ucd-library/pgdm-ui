@@ -13,10 +13,6 @@ export default class AppPageConnect extends Mixin(PolymerElement)
 
   static get properties() {
     return {
-      connected : {
-        type : Boolean,
-        value : false
-      },
       view : {
         type : String,
         value : 'list'
@@ -34,18 +30,15 @@ export default class AppPageConnect extends Mixin(PolymerElement)
     this.PgModel.getServices();
   }
 
-  _onServiceClicked(e) {
-    let serviceName = e.currentTarget.innerHTML;
+  /**
+   * @method _onEditConnection
+   * @description bound to connect event from app-connection-list
+   * 
+   * @param {Object} e event 
+   */
+  _onConnect(e) {
+    let serviceName = e.detail;
     this.PgModel.connectService(serviceName);
-  }
-
-  _onDisconnectClicked() {
-    this.PgModel.disconnect();
-  }
-
-  _onPgConnectionUpdate(e) {
-    this.connected = (e.state === 'connected') ? true : false;
-    console.log(e);
   }
 
   /**

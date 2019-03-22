@@ -71,6 +71,16 @@ export default class AppConnectionList extends Mixin(PolymerElement)
     this.dispatchEvent(event);
   }
 
+  /**
+   * @method _onConnectClicked
+   * @description bound to click event on connect icon
+   */
+  _onConnectClicked(e) {
+    let index = parseInt(e.currentTarget.getAttribute('index'));
+    let event = new CustomEvent('connect', {detail: this.services[index].name});
+    this.dispatchEvent(event);
+  }
+
 }
 
 customElements.define('app-connection-list', AppConnectionList);

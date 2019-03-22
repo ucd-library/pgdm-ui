@@ -5,10 +5,13 @@ import "@polymer/polymer"
 import "@polymer/iron-pages"
 
 import "@ucd-lib/cork-app-utils"
+
 import lib from "../lib"
 window.APP = lib;
 
+import "./utils/app-nav"
 import "./pages/connect/app-page-connect"
+import "./pages/insert/app-insert"
 
 export default class PgdmApp extends Mixin(PolymerElement)
   .with(EventInterface) {

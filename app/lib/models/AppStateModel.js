@@ -16,7 +16,10 @@ class ImplAppStateModel extends AppStateModel {
     this.set({
       location : {
         pathname : window.location.hash.replace(/^#/, ''),
-        path : window.location.hash.replace(/^#/, '').replace(/(^\/|\/$)/g, '').split('/')
+        path : window.location.hash.replace(/^#/, '')
+          .replace(/(^\/|\/$)/g, '')
+          .split('/')
+          .filter(part => part ? true : false)
       }
     });
   }

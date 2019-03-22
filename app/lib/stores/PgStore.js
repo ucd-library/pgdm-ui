@@ -7,12 +7,14 @@ class PgStore extends BaseStore {
 
     this.data = {
       connection : {},
-      services : {}
+      services : {},
+      tables : {}
     }
 
     this.events = {
       PG_SERVICE_UPDATE : 'pg-service-update',
-      PG_CONNECTION_UPDATE : 'pg-connection-update'
+      PG_CONNECTION_UPDATE : 'pg-connection-update',
+      PG_TABLES_UPDATE : 'pg-tables-update'
     }
 
     this.setPgDisconnected();
@@ -37,6 +39,24 @@ class PgStore extends BaseStore {
   _setPgConnectState(state) {
     this.data.connection = state;
     this.emit(this.events.PG_CONNECTION_UPDATE, state);
+  }
+
+  setTablesLoading() {
+    this._setTablesState({
+      state : this.STATE.LOADING
+    });
+  }
+
+  setTablesLoaded(tables) {
+    this._setTablesState({
+      state : this.STATE.LOADED,
+      payload : tables
+    });
+  }
+
+  _setTablesState(state) {
+    this.data.tables = state;
+    this.emit(this.events.PG_TABLES_UPDATE, state);
   }
 
   setServiceLoaded(name, config) {

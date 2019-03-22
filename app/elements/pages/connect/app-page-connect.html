@@ -14,6 +14,7 @@
 
 <iron-pages attr-for-selected="view" selected="[[view]]">
   <app-connection-list view="list"
+    on-connect="_onConnect"
     on-edit-connection="_onEditConnection">
   </app-connection-list>
   
@@ -36,7 +37,3 @@
     </app-connection-edit>
   </div>
 </iron-pages>
-
-<div hidden$="[[!connected]]">
-  <a on-click="_onDisconnectClicked">Disconnect</a>
-</div>

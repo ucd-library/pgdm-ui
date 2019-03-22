@@ -1,0 +1,17 @@
+<style>
+  :host {
+    display: inline-block;
+  }
+  .layout {
+    display: flex;
+  }
+</style>
+
+<div class="layout">
+  <span hidden$="[[!connected]]">
+    Connected <iron-icon icon="highlight-off" on-click="_onDisconnectClicked"></iron-icon>
+  </span>
+  <span hidden$="[[connected]]">
+    Disconnected 
+  </span>
+</div>

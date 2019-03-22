@@ -66,6 +66,7 @@ class PgModel extends BaseModel {
         this.store.setPgDisconnected();
       });
       this.store.setPgConnected();
+      this.getTables();
     } catch(e) {
       this.store.setPgConnectError(e);
     }
@@ -76,7 +77,75 @@ class PgModel extends BaseModel {
     if( !pgdm.pg.client ) return;
     return pgdm.pg.client.end();
   }
-  
+
+  /**
+   * @method getTables
+   * @description grab the list of tables/views from the 'tables' table (required for pgdm).  This function will
+   * also attempt to parse trigger -> insert/update function information attached to the views.
+   * 
+   * @returns {Promise}
+   */
+  async getTables() {
+    this.store.setTablesLoading();
+    let tables = await pgdm.pg.query('select * from tables');
+
+    for( let table of tables ) {
+      let info = await pgdm.pg.query(`select * from information_schema.columns where table_name = $1`, [table.table_view]);
+      table.tableViewInfo = info;
+
+      let triggers = await pgdm.pg.query(`select * from information_schema.triggers where event_object_table = $1`, [table.table_view]);
+      for( let trigger of triggers ) {
+        trigger.function = trigger.action_statement.replace(/EXECUTE PROCEDURE /, '').replace(/\(\)/, '').trim();
+        if( trigger.event_manipulation === 'INSERT' ) {
+          trigger.type = 'insert';
+          table.insert = await this._getFunctionFromTrig(trigger.function)
+        } else if( trigger.event_manipulation === 'UPDATE' ) {
+          trigger.type = 'update';
+          table.update = await this._getFunctionFromTrig(trigger.function)
+        }
+      }
+      table.triggers = triggers;
+    }
+
+    this.store.setTablesLoaded(tables);
+    return tables;
+  }
+
+  /**
+   * @method _getFunctionFromTrig
+   * @description given a trigger function name (parsed via trigger action statment), attempt to parse function params required
+   * in view insert/update statement.  If this fails to parse, return null.  This should only be wired up to helper information
+   * as it may fail with some setups.
+   * 
+   * Any improvement on this function would be welcome.
+   * 
+   * @param {String} triggerFnName
+   * 
+   * @returns {Promise} resolve to Object
+   */
+  async _getFunctionFromTrig(triggerFnName) {
+    let info = await pgdm.pg.querySingle(`select * from information_schema.routines where routine_name = $1`, [triggerFnName]);
+    if( !info ) return null;
+
+    let fnName = info.routine_definition.match(/PERFORM *(\w+) *\(/);
+
+    if( !fnName ) return null;
+    fnName = fnName[0];
+
+    let requiredViewParams = info.routine_definition.replace(/\n/g,'').match(/PERFORM *\w+ *\((.*)\);/);
+    if( requiredViewParams ) {
+      requiredViewParams = requiredViewParams[1]
+        .split(',')
+        .map(item => item.split(':=')[1].trim().replace(/NEW./,''))
+    }
+
+    info = await pgdm.pg.querySingle(`select specific_name from information_schema.routines where routine_name = $1`, [fnName]);
+    return {
+      requiredViewParams,
+      function : fnName,
+      parameters : await pgdm.pg.query('select * from information_schema.parameters where specific_name = $1', [info.specific_name])
+    }
+  }
 
 }
 
