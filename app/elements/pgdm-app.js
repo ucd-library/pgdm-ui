@@ -1,15 +1,21 @@
 import {PolymerElement, html} from "@polymer/polymer"
 import template from "./pgdm-app.html"
 
-import "@polymer/polymer"
-import "@polymer/iron-pages"
-
-import "@ucd-lib/cork-app-utils"
-
+// js library
 import lib from "../lib"
 window.APP = lib;
 
+// npm imports
+import "@polymer/polymer"
+import "@polymer/iron-pages"
+import "@ucd-lib/cork-app-utils"
+
+// styles
+import "./style-properties"
+
+// local imports
 import "./utils/app-nav"
+import "./utils/app-header"
 import "./pages/connect/app-page-connect"
 import "./pages/insert/app-insert"
 import "./pages/delete/app-delete"

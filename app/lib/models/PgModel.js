@@ -36,7 +36,7 @@ class PgModel extends BaseModel {
     for( let name in services ) {
       this.store.setServiceLoaded(name, services[name]);
     }
-    return this.store.services;
+    return this.store.data.services;
   }
 
   saveService(name, config, replace) {

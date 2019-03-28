@@ -1,6 +1,7 @@
 import { LitElement } from 'lit-element';
 import render from "./app-delete.tpl.js"
 
+import "../../utils/app-sheet-search"
 
 export default class AppDelete extends Mixin(LitElement)
   .with(LitCorkUtils) {
@@ -28,7 +29,6 @@ export default class AppDelete extends Mixin(LitElement)
 
   async search(query) {
     let e = await this.PgdmModel.list(query);
-    console.log(e);
 
     if( e.state === 'error' ) {
       this.searchList = [];

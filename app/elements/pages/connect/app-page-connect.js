@@ -1,33 +1,57 @@
-import {PolymerElement, html} from "@polymer/polymer"
-import template from "./app-page-connect.html"
+import { LitElement, html } from 'lit-element';
+import render from "./app-page-connect.tpl.js"
+import clone from "clone"
 
 import "./app-connection-list"
 import "./app-connection-edit"
+import "../../utils/app-dropdown"
 
-export default class AppPageConnect extends Mixin(PolymerElement)
-  .with(EventInterface) {
-
-  static get template() {
-    return html([template]);
-  }
+export default class AppPageConnect extends Mixin(LitElement)
+  .with(LitCorkUtils) {
 
   static get properties() {
     return {
       view : {
-        type : String,
-        value : 'list'
-      }
+        type : String
+      },
+      services : {type: Array}
     }
   }
 
   constructor() {
     super();
+    this.render = render.bind(this);
+
     this._injectModel('PgModel');
+
+    this.view = 'list';
+    this.services = [];
+    this.servicesMap = {};
+    this.PgModel.getServices();
   }
 
-  ready() {
-    super.ready();
-    this.PgModel.getServices();
+  _onPgServiceUpdate(e) {
+    if( e.state !== 'deleted' && e.state !== 'loaded' ) return;
+    
+    if( e.state === 'deleted' ) delete this.servicesMap[e.id];
+    if( e.state === 'loaded') this.servicesMap[e.id] = e.payload;
+
+    let services = [];
+    for( let key in this.servicesMap ) {
+      let service = Object.assign({}, this.servicesMap[key]);
+      service.name = key;
+      if( this.selectedService === key ) service.selected = true;
+      else service.selected = false;
+      services.push(service);
+    }
+    this.services = services;
+  }
+
+  _renderDropdownItem(item) {
+    return html`<div style="font-weight:bold;line-height:16px">${item.name}</div>
+    <div style="font-size: 12px; font-style:italic">
+      Host: ${item.host}, User: ${item.user}
+    </div>`;
   }
 
   /**
