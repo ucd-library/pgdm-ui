@@ -28,7 +28,6 @@ export default class AppPgStatus extends Mixin(PolymerElement)
 
   _onPgConnectionUpdate(e) {
     this.connected = (e.state === 'connected') ? true : false;
-    console.log(e);
   }
 
 }

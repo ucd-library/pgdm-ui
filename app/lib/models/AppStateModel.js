@@ -9,6 +9,10 @@ class ImplAppStateModel extends AppStateModel {
     this.store = AppStateStore;
 
     window.addEventListener('hashchange', () => this._setLocation());
+    this.EventBus.on('pg-connection-update', e => {
+      if( e.state === 'connected' ) this.setWindowLocation('upload');
+    });
+    
     this._setLocation();
   }
 
@@ -31,6 +35,10 @@ class ImplAppStateModel extends AppStateModel {
     }
 
     return super.set(update);
+  }
+
+  setWindowLocation(location) {
+    window.location.hash = location;
   }
 
 }

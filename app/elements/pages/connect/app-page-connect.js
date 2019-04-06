@@ -5,6 +5,7 @@ import clone from "clone"
 import "./app-connection-list"
 import "./app-connection-edit"
 import "../../utils/app-dropdown"
+import "../../utils/app-error-panel"
 
 export default class AppPageConnect extends Mixin(LitElement)
   .with(LitCorkUtils) {
@@ -14,7 +15,8 @@ export default class AppPageConnect extends Mixin(LitElement)
       view : {
         type : String
       },
-      services : {type: Array}
+      services : {type: Array},
+      connectErrorMessage : {type: String}
     }
   }
 
@@ -30,6 +32,10 @@ export default class AppPageConnect extends Mixin(LitElement)
     this.PgModel.getServices();
   }
 
+  /**
+   * @method _onPgServiceUpdate
+   * @description bound to PgStore pg-service-update event
+   */
   _onPgServiceUpdate(e) {
     if( e.state !== 'deleted' && e.state !== 'loaded' ) return;
     
@@ -47,6 +53,18 @@ export default class AppPageConnect extends Mixin(LitElement)
     this.services = services;
   }
 
+  _onPgConnectionUpdate(e) {
+    if( e.state === 'error' ) {
+      this.connectErrorMessage = e.error.message;
+      return;
+    }
+    this.connectErrorMessage = '';
+  }
+
+  /**
+   * @method _renderDropdownItem
+   * @description used as renderer in app-dropdown
+   */
   _renderDropdownItem(item) {
     return html`<div style="font-weight:bold;line-height:16px">${item.name}</div>
     <div style="font-size: 12px; font-style:italic">
@@ -63,6 +81,12 @@ export default class AppPageConnect extends Mixin(LitElement)
   _onConnect(e) {
     let serviceName = e.detail;
     this.PgModel.connectService(serviceName);
+  }
+
+  _onConnectClicked() {
+    let selectedItem = this.byId('dropdown').selectedItem;
+    if( !selectedItem ) return;
+    this.PgModel.connectService(selectedItem.name);
   }
 
   /**

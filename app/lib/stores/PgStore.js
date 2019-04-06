@@ -20,12 +20,12 @@ class PgStore extends BaseStore {
     this.setPgDisconnected();
   }
 
-  setPgConnecting() {
-    this._setPgConnectState({state: 'connecting'});
+  setPgConnecting(config) {
+    this._setPgConnectState({state: 'connecting', payload: config});
   }
 
-  setPgConnected() {
-    this._setPgConnectState({state: 'connected'});
+  setPgConnected(config) {
+    this._setPgConnectState({state: 'connected', payload: config});
   }
 
   setPgDisconnected() {

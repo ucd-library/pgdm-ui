@@ -1,8 +1,9 @@
 import { html } from 'lit-element';
+import sharedcss from '../../shared-styles';
 
 export default function render() { 
 return html`
-
+${sharedcss}
 <style>
   :host {
     display: block;
@@ -46,6 +47,7 @@ return html`
     display: flex;
     text-align: left;
     margin: 20px;
+    align-items: center;
   }
 
   a {
@@ -60,6 +62,10 @@ return html`
     padding-top: 20px;
     border-top: 1px solid var(--app-gray-text);
     color: var(--app-gray-text);
+  }
+
+  app-error-panel {
+    display: inline-block;
   }
 </style>
 
@@ -79,17 +85,21 @@ return html`
     </div>
     <div class="connect-layout">
       <div style="flex: 1">
-        <a @click="${this._onCreateConnectionClicked}">
+        <a @click="${this._onCreateConnectionClicked}" style="vertical-align:bottom">
           <iron-icon icon="add-circle-outline"></iron-icon> New Connection
         </a>
       </div>
-      <div><button>Connect</button></div>
+      <div><button @click="${this._onConnectClicked}">Connect</button></div>
+    </div>
+    <div style="text-align:center">
+      <app-error-panel .message="${this.connectErrorMessage}"></app-error-panel>
     </div>
     <div class="manage-connections">
       <a>Manage Connections</a>
     </div>
   </div>
 </div>
+
 
 
 

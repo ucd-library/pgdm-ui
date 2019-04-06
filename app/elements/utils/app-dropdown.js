@@ -2,6 +2,7 @@ import { LitElement } from 'lit-element';
 import render from "./app-dropdown.tpl.js"
 
 import "@polymer/iron-icons"
+import { isRegExp } from 'util';
 
 export default class AppDropdown extends LitElement {
 
@@ -58,13 +59,73 @@ export default class AppDropdown extends LitElement {
     e.stopPropagation();
   }
 
+  updated(changedProperties) {
+    if( changedProperties.has('opened') ) {
+      this._onOpenedChanged();
+    }
+  }
+
   _onInputKeyup(e) {
-    if( e.which !== 13 ) return;
+    switch (e.which) {
+      case 13: // enter
+        this._onEnter();
+        break;
+      case 38: // up arrow
+        this._onUpArrow();
+        break;
+      case 40: // down arrow
+        this._onDownArrow();
+        break;
+    }
+  }
+
+  _onEnter() {
     this.opened = !this.opened;
+    if( !this.opened && this.activeIndex > -1 ) {
+      this._setSelectedIndex(this.activeIndex);
+    }
+  }
+
+  _onUpArrow() {
+    if( !this.opened ) return;
+    this.activeIndex--;
+    if( this.activeIndex < 0 ) {
+      this.activeIndex = this.items.length-1;
+    }
+    this._setActiveIndex();
+  }
+
+  _onDownArrow() {
+    if( !this.opened ) return;
+    this.activeIndex++;
+    if( this.activeIndex >= this.items.length ) {
+      this.activeIndex = 0;
+    }
+    this._setActiveIndex();
+  }
+
+  _onOpenedChanged() {
+    if( !this.opened ) return;
+    this.activeIndex = -1;
+    this._setActiveIndex();
+  }
+
+  _setActiveIndex() {
+    for( let i = 0; i < this.items.length; i++ ) {
+      this.items[i]._active = (i === this.activeIndex);
+    }
+  
+    return this.requestUpdate();
   }
 
   _onItemClicked(e) {
-    this.selectedIndex = parseInt(e.currentTarget.getAttribute('index'));
+    let index = parseInt(e.currentTarget.getAttribute('index'));
+    this._setSelectedIndex(index);
+    this.opened = false;
+  }
+
+  _setSelectedIndex(index) {
+    this.selectedIndex = index;
     this.selectedItem = this.items[this.selectedIndex];
     let event = new CustomEvent('select', { 
       detail: {
@@ -73,7 +134,6 @@ export default class AppDropdown extends LitElement {
       } 
     });
     this.dispatchEvent(event);
-    this.opened = false;
   }
 
 }

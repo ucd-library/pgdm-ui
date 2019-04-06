@@ -59,13 +59,13 @@ class PgModel extends BaseModel {
   }
 
   async connect(config) {
-    this.store.setPgConnecting();
+    this.store.setPgConnecting(config);
     try {
       let client = await pgdm.pg.connect(config);
       client.on('end', () => {
         this.store.setPgDisconnected();
       });
-      this.store.setPgConnected();
+      this.store.setPgConnected(config);
       this.getTables();
     } catch(e) {
       this.store.setPgConnectError(e);

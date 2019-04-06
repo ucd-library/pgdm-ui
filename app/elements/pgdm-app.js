@@ -15,10 +15,12 @@ import "./style-properties"
 
 // local imports
 import "./utils/app-nav"
-import "./utils/app-header"
+import "./layout/app-header"
+import "./layout/app-connection-header"
 import "./pages/connect/app-page-connect"
 import "./pages/insert/app-insert"
 import "./pages/delete/app-delete"
+import "./pages/upload/app-page-upload"
 
 export default class PgdmApp extends Mixin(PolymerElement)
   .with(EventInterface) {
@@ -32,6 +34,10 @@ export default class PgdmApp extends Mixin(PolymerElement)
       page : {
         type : String,
         value : 'home'
+      },
+      fullLayout : {
+        type : Boolean,
+        value : false
       }
     }
   }
@@ -53,6 +59,7 @@ export default class PgdmApp extends Mixin(PolymerElement)
    */
   _onAppStateUpdate(e) {
     this.page = e.location.page;
+    this.fullLayout = !(this.page === 'connect');
   }
 
 

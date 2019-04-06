@@ -21,7 +21,7 @@ return html`
   }
 
   .dropdown > div {
-    background-color: var(--app-medium-gray);
+    background-color: var(--app-light-gray);
     position: absolute;
     width: 100%;
     z-index: 1000;
@@ -53,6 +53,10 @@ return html`
     border-bottom: none;
   }
 
+  .item:hover, .item[active] {
+    background-color: var(--app-medium-gray);
+  }
+
   /* .item:hover {
     background: var(--app-light-gray);
   } */
@@ -70,7 +74,7 @@ return html`
 <div class="dropdown" ?hidden="${!this.opened}" @click="${this._onDropdownClicked}" >
   <div>
     ${this.items.map((item, index) => 
-      html`<div class="item" index="${index}" @click="${this._onItemClicked}">
+      html`<div class="item" index="${index}" ?active="${item._active}" @click="${this._onItemClicked}">
         ${this.renderItem(item)}
       </div>`
     )}

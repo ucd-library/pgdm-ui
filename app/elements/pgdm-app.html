@@ -2,15 +2,36 @@
   :host {
     display: block
   }
+
+  .layout {
+    display: flex;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
 </style>
 
+
 <app-header></app-header>
-<app-nav></app-nav>
-<iron-pages attr-for-selected="page" selected="[[page]]">
-  <app-page-connect page="connect"></app-page-connect>
-  <app-insert page="insert"></app-insert>
-  <app-delete page="delete"></app-delete>
-  <div page="home">
-    home
+<div class="layout">
+  <div hidden$="[[!fullLayout]]">
+    <div>Side</div>
   </div>
-</iron-pages>
+  <div style="flex: 1">
+    <app-connection-header hidden$="[[!fullLayout]]"></app-connection-header>
+
+    <iron-pages attr-for-selected="page" selected="[[page]]">
+      <app-page-connect page="connect"></app-page-connect>
+      <app-page-upload page="upload"></app-page-upload>
+      <app-insert page="insert"></app-insert>
+      <app-delete page="delete"></app-delete>
+      <div page="home">
+        home
+      </div>
+    </iron-pages>
+  </div>
+</div>
+
+
+<!-- <app-nav></app-nav> -->

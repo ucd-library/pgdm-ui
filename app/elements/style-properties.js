@@ -8,16 +8,17 @@ html {
   --app-light-blue      : #9be7ff;
 
   --app-gold            : #daaa00;
+  --app-red             : #ba0c2f;
 
   --app-extra-light-gray  : #f3f3f3;
-  --app-light-gray        : #efefef;
+  --app-light-gray        : #CCD4E0;
   --app-medium-gray       : #B2BDCF;
   
 
   --app-primary-color   : var(--app-extra-dark-blue);
   --app-secondary-color : var(--app-gold);
   
-  --app-default-background-color : var(--app-light-gray);
+  --app-default-background-color : var(--app-extra-light-gray);
 
 
   --app-primary-text-color      : black;
