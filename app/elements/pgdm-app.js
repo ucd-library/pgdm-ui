@@ -17,10 +17,14 @@ import "./style-properties"
 import "./utils/app-nav"
 import "./layout/app-header"
 import "./layout/app-connection-header"
+import "./layout/app-left-nav"
 import "./pages/connect/app-page-connect"
 import "./pages/insert/app-insert"
 import "./pages/delete/app-delete"
 import "./pages/upload/app-page-upload"
+
+// for development
+window.autoConnect = 'localdev'
 
 export default class PgdmApp extends Mixin(PolymerElement)
   .with(EventInterface) {

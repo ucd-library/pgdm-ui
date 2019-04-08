@@ -51,6 +51,13 @@ export default class AppPageConnect extends Mixin(LitElement)
       services.push(service);
     }
     this.services = services;
+
+    // for development
+    if( window.autoConnect === e.id ) {
+      setTimeout(() => {
+        this.PgModel.connectService(e.id);
+      }, 200);
+    }
   }
 
   _onPgConnectionUpdate(e) {

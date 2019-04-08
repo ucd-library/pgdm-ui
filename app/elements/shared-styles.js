@@ -11,6 +11,14 @@ export default html`
     font-weight: var(--app-font-weight-heavy);
     font-size: 14px;
   }
+
+  h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    color: var(--app-primary-color);
+  }
+
   [hidden] {
     display: none !important;
   }

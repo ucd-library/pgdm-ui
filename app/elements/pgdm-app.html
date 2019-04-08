@@ -1,10 +1,36 @@
 <style>
   :host {
-    display: block
+    display: block;
+    height: 100vh;
+  }
+
+  .fill-layout {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
 
   .layout {
     display: flex;
+    flex: 1;
+  }
+
+  .overflow {
+    overflow: auto;
+    padding : 35px;
+    height: 100%;
+  }
+
+  .inner-layout {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  app-connection-header {
+    position: absolute;
+    width: 100%;
   }
 
   [hidden] {
@@ -13,23 +39,28 @@
 </style>
 
 
-<app-header></app-header>
-<div class="layout">
-  <div hidden$="[[!fullLayout]]">
-    <div>Side</div>
-  </div>
-  <div style="flex: 1">
-    <app-connection-header hidden$="[[!fullLayout]]"></app-connection-header>
-
-    <iron-pages attr-for-selected="page" selected="[[page]]">
-      <app-page-connect page="connect"></app-page-connect>
-      <app-page-upload page="upload"></app-page-upload>
-      <app-insert page="insert"></app-insert>
-      <app-delete page="delete"></app-delete>
-      <div page="home">
-        home
+<div class="fill-layout">
+  <app-header></app-header>
+  <div class="layout">
+    <app-left-nav hidden$="[[!fullLayout]]"></app-left-nav>
+    <div class="inner-layout">
+      <div style="position: relative">
+          <app-connection-header hidden$="[[!fullLayout]]"></app-connection-header>
       </div>
-    </iron-pages>
+      
+      <div class="overflow">
+        <iron-pages attr-for-selected="page" selected="[[page]]">
+          <app-page-connect page="connect"></app-page-connect>
+          <app-page-upload page="upload"></app-page-upload>
+          <app-insert page="insert"></app-insert>
+          <app-delete page="delete"></app-delete>
+          <div page="home">
+            home
+          </div>
+        </iron-pages>
+      </div>
+      
+    </div>
   </div>
 </div>
 

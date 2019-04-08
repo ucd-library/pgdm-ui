@@ -18,13 +18,15 @@ class PgdmModel extends BaseModel {
     model.on('insert-end', () => this.store.onInsertEnd());
   }
 
-  // TODO: fire events on this
   async _loadUids(e) {
     if( e.state !== 'connected' ) return;
-    try {
-      await model.loadUids();
-    } catch(e) {
 
+    this.store.onTablesLoading();
+    try {
+      let tables = await model.loadUids();
+      this.store.onTablesLoaded(tables);
+    } catch(e) {
+      this.store.onTablesError(e);
     }
   }
 
@@ -38,6 +40,10 @@ class PgdmModel extends BaseModel {
       this.store.onInsertError(e);
     }
     return this.store.data.insert;
+  }
+
+  async tables() {
+
   }
 
   async list(query) {

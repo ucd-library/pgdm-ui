@@ -16,14 +16,13 @@ return html`
 
   .label {
     background-color: white;
-    padding: 5px;
   }
 
   .triangle-topright {
     width: 0;
     height: 0;
-    border-top: 40px solid white;
-    border-left: 40px solid transparent;
+    border-top: 30px solid white;
+    border-left: 30px solid transparent;
   }
 </style>  
 

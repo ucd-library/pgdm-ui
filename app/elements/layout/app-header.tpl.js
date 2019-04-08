@@ -18,13 +18,14 @@ return html`
     color: var(--app-inverse-text-color);
   }
 
-  .title-bar > * {
+  .img-outer {
     padding: 10px 10px 5px 10px;
   }
 
   .title {
+    padding: 0 10px;
     flex: 1;
-    font-size: 26px;
+    font-size: 20px;
   }
 
   .title-bar img {
@@ -34,7 +35,7 @@ return html`
 
 <div class="title-bar">
   <div class="title">PostGres Data Management System</div>
-  <div><img src="./app/assets/ucd-lib-logo-white.png" /></div>
+  <div class="img-outer"><img src="./app/assets/ucd-lib-logo-white.png" /></div>
 </div>
 
 `;}

@@ -23,7 +23,7 @@ export default class AppDropdown extends LitElement {
     this.items = [];
     this.selectedItem = null;
     this.selectedIndex = -1;
-    this.helpText = 'foo';
+    this.helpText = '';
     this.opened = false;
   
     this._onWindowClicked = this._onWindowClicked.bind(this);

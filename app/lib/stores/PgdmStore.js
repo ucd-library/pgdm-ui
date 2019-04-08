@@ -8,13 +8,15 @@ class PgdmStore extends BaseStore {
     this.data = {
       insert : {},
       list : {},
-      delete : {}
+      delete : {},
+      tables : {}
     }
 
     this.events = {
       PGDM_INSERT_UPDATE : 'pgdm-insert-update',
       PGDM_LIST_UPDATE : 'pgdm-list-update',
-      PGDM_DELETE_UPDATE : 'pgdm-delete-update'
+      PGDM_DELETE_UPDATE : 'pgdm-delete-update',
+      PGDM_TABLES_UPDATE : 'pgdm-tables-update'
     }
   }
 
@@ -101,6 +103,32 @@ class PgdmStore extends BaseStore {
   _setDeleteState(state) {
     this.data.delete = state;
     this.emit(this.events.PGDM_DELETE_UPDATE, state);
+  }
+
+  // TABLES
+  onTablesLoading() {
+    this._setTablesState({
+      state : this.STATE.LOADING
+    });
+  }
+
+  onTablesLoaded(tables) {
+    this._setTablesState({
+      state : this.STATE.LOADED,
+      payload : tables
+    });
+  }
+
+  onTablesError(error) {
+    this._setTablesState({
+      state : this.STATE.ERROR,
+      error
+    });
+  }
+
+  _setTablesState(state) {
+    this.data.tables = state;
+    this.emit(this.events.PGDM_TABLES_UPDATE, state);
   }
 
 }
