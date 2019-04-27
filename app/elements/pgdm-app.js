@@ -19,12 +19,15 @@ import "./layout/app-header"
 import "./layout/app-connection-header"
 import "./layout/app-left-nav"
 import "./pages/connect/app-page-connect"
+import "./pages/connect/app-page-edit-connection"
 import "./pages/insert/app-insert"
 import "./pages/delete/app-delete"
 import "./pages/upload/app-page-upload"
 
 // for development
-window.autoConnect = 'localdev'
+// window.autoConnect = 'localdev'
+
+const FULL_LAYOUT = ['connect', 'edit-connection'];
 
 export default class PgdmApp extends Mixin(PolymerElement)
   .with(EventInterface) {
@@ -54,7 +57,7 @@ export default class PgdmApp extends Mixin(PolymerElement)
 
   async ready() {
     super.ready();
-    window.location.hash = 'connect'
+    window.location.hash = 'edit-connection'
   }
 
   /**
@@ -63,7 +66,7 @@ export default class PgdmApp extends Mixin(PolymerElement)
    */
   _onAppStateUpdate(e) {
     this.page = e.location.page;
-    this.fullLayout = !(this.page === 'connect');
+    this.fullLayout = (FULL_LAYOUT.indexOf(this.page) === -1);
   }
 
 

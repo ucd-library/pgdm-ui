@@ -27,12 +27,6 @@ ${sharedcss}
     color: var(--app-medium-gray);
   }
 
-  .title {
-    font-size: 26px;
-    text-transform: uppercase;
-    color: var(--app-primary-color);
-  }
-
   .sub-title {
     font-style: italic;
     color: var(--app-primary-color);
