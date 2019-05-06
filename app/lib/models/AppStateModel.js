@@ -11,6 +11,7 @@ class ImplAppStateModel extends AppStateModel {
     window.addEventListener('hashchange', () => this._setLocation());
     this.EventBus.on('pg-connection-update', e => {
       if( e.state === 'connected' ) this.setWindowLocation('upload');
+      else if( e.state === 'disconnected' ) this.setWindowLocation('connect');
     });
     
     this._setLocation();

@@ -89,7 +89,7 @@ ${sharedcss}
       <app-error-panel .message="${this.connectErrorMessage}"></app-error-panel>
     </div>
     <div class="manage-connections">
-      <a>Manage Connections</a>
+      <a @click="${this._onManageClicked}">Manage Connections</a>
     </div>
   </div>
 </div>

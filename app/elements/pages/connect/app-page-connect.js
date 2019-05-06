@@ -24,7 +24,7 @@ export default class AppPageConnect extends Mixin(LitElement)
     super();
     this.render = render.bind(this);
 
-    this._injectModel('PgModel');
+    this._injectModel('PgModel', 'AppStateModel');
 
     this.view = 'list';
     this.services = [];
@@ -96,6 +96,10 @@ export default class AppPageConnect extends Mixin(LitElement)
     this.PgModel.connectService(selectedItem.name);
   }
 
+  _onManageClicked() {
+    this.AppStateModel.setWindowLocation('manage-connections');
+  }
+
   /**
    * @method _onEditConnection
    * @description bound to edit-connection event from app-connection-list
@@ -115,8 +119,7 @@ export default class AppPageConnect extends Mixin(LitElement)
    * @param {Object} e event 
    */
   _onCreateConnectionClicked(e) {
-    this.view = "create";
-    this.$.createConnection.reset();
+    this.AppStateModel.setWindowLocation('new-connection');
   }
 
   /**

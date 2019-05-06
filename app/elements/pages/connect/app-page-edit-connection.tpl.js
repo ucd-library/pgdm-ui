@@ -54,6 +54,11 @@ ${sharedcss}
     padding-right: 30px;
     margin-right: 10px;
   }
+
+  .error {
+    font-weight: bold;
+    color: var(--app-red);
+  }
 </style>  
 
 <h1>Database Connection</h1>
@@ -106,16 +111,21 @@ ${sharedcss}
 
 <div class="layout">
   <div style="flex:1">
-    <div class="checkbox-layout">
-      <input type="checkbox" id="save" />
-      <label for="save">Add to Connection List</label>
+    <div class="checkbox-layout" ?hidden="${!this.newConnection}">
+      <input type="checkbox" id="save-new" />
+      <label for="save-new">Add to Connection List</label>
     </div>
   </div>
   
   <div style="flex:1; text-align:right">
-    <button class="inverse">Cancel</button>
-    <button>Save Changes</button>
+    <button class="inverse" @click="${this._onCancelClicked}">Cancel</button>
+    <button id="connect" ?hidden="${!this.newConnection}" @click="${this._onConnectNew}">Connect</button>
+    <button id="save-edit" ?hidden="${this.newConnection}" >Save Changes</button>
   </div>
+</div>
+
+<div ?hidden="${!this.error}" class="error">
+  ${this.error ? this.error.message : ''}
 </div>
 
 `;}

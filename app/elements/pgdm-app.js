@@ -20,6 +20,7 @@ import "./layout/app-connection-header"
 import "./layout/app-left-nav"
 import "./pages/connect/app-page-connect"
 import "./pages/connect/app-page-edit-connection"
+import "./pages/connect/app-page-manage-connections"
 import "./pages/insert/app-insert"
 import "./pages/delete/app-delete"
 import "./pages/upload/app-page-upload"
@@ -27,7 +28,7 @@ import "./pages/upload/app-page-upload"
 // for development
 // window.autoConnect = 'localdev'
 
-const FULL_LAYOUT = ['connect', 'edit-connection'];
+const FULL_LAYOUT = ['connect', 'edit-connection', 'new-connection', 'manage-connections'];
 
 export default class PgdmApp extends Mixin(PolymerElement)
   .with(EventInterface) {
@@ -57,7 +58,8 @@ export default class PgdmApp extends Mixin(PolymerElement)
 
   async ready() {
     super.ready();
-    window.location.hash = 'edit-connection'
+    window.location.hash = 'connect';
+    // window.location.hash = 'manage-connections';
   }
 
   /**
@@ -67,8 +69,17 @@ export default class PgdmApp extends Mixin(PolymerElement)
   _onAppStateUpdate(e) {
     this.page = e.location.page;
     this.fullLayout = (FULL_LAYOUT.indexOf(this.page) === -1);
+
+    if( this.page === 'new-connection' ) {
+      this.shadowRoot.querySelector(`[page="new-connection"]`).reset();
+    }
   }
 
+  _onEditConnection(e) {
+    let service = e.detail;
+    this.shadowRoot.querySelector(`[page="edit-connection"]`).reset(service);
+    this.AppStateModel.setWindowLocation('edit-connection');
+  }
 
 
 }

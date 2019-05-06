@@ -36,6 +36,17 @@
   [hidden] {
     display: none !important;
   }
+
+  .center-max {
+    display: flex;
+    justify-content: center;
+  }
+
+  .center-max > iron-pages {
+    max-width: 850px;
+    width: 100%;
+    display: block;
+  }
 </style>
 
 
@@ -49,16 +60,20 @@
       </div>
       
       <div class="overflow">
-        <iron-pages attr-for-selected="page" selected="[[page]]">
-          <app-page-connect page="connect"></app-page-connect>
-          <app-page-edit-connection page="edit-connection"></app-page-edit-connection>
-          <app-page-upload page="upload"></app-page-upload>
-          <app-insert page="insert"></app-insert>
-          <app-delete page="delete"></app-delete>
-          <div page="home">
-            home
-          </div>
-        </iron-pages>
+        <div class="center-max">
+          <iron-pages attr-for-selected="page" selected="[[page]]">
+            <app-page-connect page="connect"></app-page-connect>
+            <app-page-edit-connection page="edit-connection"></app-page-edit-connection>
+            <app-page-edit-connection page="new-connection" new-connection></app-page-edit-connection>
+            <app-page-manage-connections page="manage-connections" on-edit-connection="_onEditConnection"></app-page-manage-connections>
+            <app-page-upload page="upload"></app-page-upload>
+            <app-insert page="insert"></app-insert>
+            <app-delete page="delete"></app-delete>
+            <div page="home">
+              home
+            </div>
+          </iron-pages>
+        </div>
       </div>
       
     </div>
