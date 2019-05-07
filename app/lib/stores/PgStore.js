@@ -20,11 +20,14 @@ class PgStore extends BaseStore {
     this.setPgDisconnected();
   }
 
-  setPgConnecting(config) {
+  setPgConnecting(config, id) {
+    config.name = id;
     this._setPgConnectState({state: 'connecting', payload: config});
   }
 
-  setPgConnected(config) {
+  setPgConnected(config, id, client) {
+    config.name = id;
+    config.client = client;
     this._setPgConnectState({state: 'connected', payload: config});
   }
 
@@ -32,8 +35,8 @@ class PgStore extends BaseStore {
     this._setPgConnectState({state: 'disconnected'});
   }
 
-  setPgConnectError(error) {
-    this._setPgConnectState({state: 'error', error});
+  setPgConnectError(error, id) {
+    this._setPgConnectState({state: 'error', error, payload: {name:id}});
   }
 
   _setPgConnectState(state) {

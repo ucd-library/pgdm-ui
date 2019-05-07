@@ -23,10 +23,8 @@ export default class AppErrorPanel extends LitElement {
     return html`${msg}`;
   }
 
-  updated(props) {
-    if( props.has('message') ) {
-      this.hidden = props.get('message') ? true : false;
-    }
+  updated() {
+    this.hidden = this.message ? false : true;
   }
 
 }

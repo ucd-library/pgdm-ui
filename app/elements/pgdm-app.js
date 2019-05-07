@@ -26,7 +26,7 @@ import "./pages/delete/app-delete"
 import "./pages/upload/app-page-upload"
 
 // for development
-// window.autoConnect = 'localdev'
+window.autoConnect = 'localdev'
 
 const FULL_LAYOUT = ['connect', 'edit-connection', 'new-connection', 'manage-connections'];
 

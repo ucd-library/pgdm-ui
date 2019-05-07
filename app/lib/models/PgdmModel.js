@@ -71,6 +71,10 @@ class PgdmModel extends BaseModel {
     return this.store.data.delete;
   }
 
+  analyzeFile(path) {
+    return model.analyzeFile(path);
+  }
+
 }
 
 model.exports = new PgdmModel();

@@ -61,6 +61,10 @@ ${sharedcss}
   app-error-panel {
     display: inline-block;
   }
+
+  paper-spinner-lite {
+    --paper-spinner-color: var(--app-primary-color);
+  }
 </style>
 
 
@@ -87,6 +91,7 @@ ${sharedcss}
     </div>
     <div style="text-align:center">
       <app-error-panel .message="${this.connectErrorMessage}"></app-error-panel>
+      <paper-spinner-lite ?hidden="${!this.loading}" active></paper-spinner-lite>
     </div>
     <div class="manage-connections">
       <a @click="${this._onManageClicked}">Manage Connections</a>

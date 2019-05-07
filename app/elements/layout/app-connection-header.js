@@ -14,6 +14,8 @@ export default class AppConnectionHeader extends Mixin(LitElement)
       host : {type: String},
       user : {type: String},
       dbname : {type: String},
+      port : {type: String},
+      serviceName : {type: String},
       showPopup : {type: Boolean}
     }
   }
@@ -25,6 +27,8 @@ export default class AppConnectionHeader extends Mixin(LitElement)
     this.host = '';
     this.user = '';
     this.dbname = '';
+    this.port = '';
+    this.serviceName = '';
     this.showPopup = false;
 
     this._injectModel('PgModel');
@@ -40,11 +44,15 @@ export default class AppConnectionHeader extends Mixin(LitElement)
       this.host = e.payload.host;
       this.user = e.payload.user;
       this.dbname = e.payload.dbname;
+      this.port = e.payload.port;
+      this.serviceName = e.payload.name || e.payload.host;
     } else {
       this.connected = false;
       this.host = '';
       this.user = '';
       this.dbname = '';
+      this.port = '';
+      this.serviceName = '';
     }
   }
 
@@ -54,6 +62,7 @@ export default class AppConnectionHeader extends Mixin(LitElement)
    */
   _onCloseConnectionClicked() {
     this.PgModel.disconnect();
+    this.showPopup = false;
   }
 
   /**

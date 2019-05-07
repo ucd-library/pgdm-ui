@@ -29,12 +29,31 @@ ${sharedStyles}
   h2 {
     margin-bottom: 10px
   }
+
+  .help {
+    margin-left: 30px;
+    line-height: 18px;
+  }
+
+  .help.select {
+    color: var(--app-primary-color);
+  }
+
+  .help.unselect {
+    color: #888888;
+    font-style: italic;
+    font-size: 12px;
+  }
+
+  .checkbox-panel {
+    margin-bottom: 15px;
+  }
+
+  .error {
+    text-align: center;
+    color: var(--app-red);
+  }
 </style>  
-
-<h2>Database Table</h2>
-<app-tables-dropdown></app-tables-dropdown>
-
-<div class="break"></div>
 
 <div class="layout">
   <div style="flex:1">
@@ -43,13 +62,69 @@ ${sharedStyles}
   </div>
   <div class="right-panel">
     <div>This is a...</div>
-    <div><input type="radio" /> New File</div>
-    <div><input type="radio" /> Revision (updates to exported source file)</div>
-    <div><input type="radio" /> Replacement (full replacement of source file)</div>
+    <div class="checkbox-panel">
+      <div>
+        <iron-icon icon="radio-button-unchecked" ?hidden="${this.isNewFile}"></iron-icon>
+        <iron-icon icon="check-circle" ?hidden="${!this.isNewFile}"></iron-icon> New File
+      </div>
+      <div ?hidden="${!this.fileSelected}">
+        <div ?hidden="${this.isNewFile}" class="unselect help">The provided source file already exists in database.</div>
+        <div ?hidden="${!this.isNewFile}" class="select help">The provided source file does not exist in database.  Select table 
+          to insert into below.
+        </div>
+      </div>
+    </div>
+
+    <div class="checkbox-panel">
+      <div>
+        <iron-icon icon="radio-button-unchecked" ?hidden="${this.isRevisionFile}"></iron-icon>
+        <iron-icon icon="check-circle" ?hidden="${!this.isRevisionFile}"></iron-icon> Revision (updates to exported source file)
+      </div>
+      <div ?hidden="${!this.fileSelected}">
+        <div ?hidden="${this.isRevisionFile}" class="unselect help">
+          <div ?hidden="${!this.isNewFile}">The provided source file does not exist in database</div>
+          <div ?hidden="${this.isNewFile}">The provided source file does not contain the 
+            ${this.uidColumn} column. If you meant to preform a revision, export the table from the 
+            <a href="#management">management</a> screen.
+          </div>
+        </div>
+        <div ?hidden="${!this.isRevisionFile}" class="select help">The provided source file contains the ${this.uidColumn} column with the correct 
+        revision tag.
+        </div>
+      </div>
+    </div>
+
+    <div class="checkbox-panel">
+      <div>
+        <iron-icon icon="radio-button-unchecked" ?hidden="${this.isReplaceFile}"></iron-icon>
+        <iron-icon icon="check-circle" ?hidden="${!this.isReplaceFile}"></iron-icon> Replacement (full replacement of source file)
+      </div>
+      <div ?hidden="${!this.fileSelected}">
+        <div ?hidden="${this.isReplaceFile}" class="unselect help">
+          <div ?hidden="${!this.isNewFile}">The provided source file does not exist in database</div>
+          <div ?hidden="${this.isNewFile}">The provided source file is a exported file (contains
+          ${this.uidColumn} column with revision tag).</div>
+        </div>
+        <div ?hidden="${!this.isReplaceFile}" class="select help">The provided source file exists in the database and is not
+          a exported pgdm file (does not contain the ${this.uidColumn} column with the correct revision tag).
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
+<div ?hidden="${!this.hasError}" class="error">
+  ${this.errorMessage}
+</div>
+
 <div class="break"></div>
+
+<div ?hidden="${!this.isNewFile}">
+  <h2>Database Table</h2>
+  <app-tables-dropdown></app-tables-dropdown>
+
+  <div class="break"></div>
+</div>
 
 <div style="text-align: right">
   <button>Save Changes</button>

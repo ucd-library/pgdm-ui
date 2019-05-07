@@ -55,20 +55,21 @@ class PgModel extends BaseModel {
 
   async connectService(name) {
     let config = pgdm.pg.getConfig(name);
-    return this.connect(config);
+    return this.connect(config, name);
   }
 
-  async connect(config) {
-    this.store.setPgConnecting(config);
+  async connect(config, serviceName) {
+    config = Object.assign({}, config);
+    this.store.setPgConnecting(config, serviceName);
     try {
-      let client = await pgdm.pg.connect(config);
+      let client = await pgdm.pg.connect(config, serviceName);
       client.on('end', () => {
         this.store.setPgDisconnected();
       });
-      this.store.setPgConnected(config, client);
+      this.store.setPgConnected(config, serviceName, client);
       await this.getTables();
     } catch(e) {
-      this.store.setPgConnectError(e);
+      this.store.setPgConnectError(e, serviceName);
     }
     return this.store.data.connection;
   }
@@ -137,6 +138,7 @@ class PgModel extends BaseModel {
       requiredViewParams = requiredViewParams[1]
         .split(',')
         .map(item => item.split(':=')[1].trim().replace(/NEW./,''))
+        .filter(val => val !== 'source_name')
     }
 
     info = await pgdm.pg.querySingle(`select specific_name from information_schema.routines where routine_name = $1`, [fnName]);

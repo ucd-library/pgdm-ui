@@ -1,9 +1,8 @@
 import { LitElement, html } from 'lit-element';
 import render from "./app-page-connect.tpl.js"
-import clone from "clone"
 
-import "./app-connection-list"
-import "./app-connection-edit"
+import "@polymer/paper-spinner/paper-spinner-lite"
+
 import "../../utils/app-dropdown"
 import "../../utils/app-error-panel"
 
@@ -16,7 +15,8 @@ export default class AppPageConnect extends Mixin(LitElement)
         type : String
       },
       services : {type: Array},
-      connectErrorMessage : {type: String}
+      connectErrorMessage : {type: String},
+      loading : {type: Boolean}
     }
   }
 
@@ -29,6 +29,7 @@ export default class AppPageConnect extends Mixin(LitElement)
     this.view = 'list';
     this.services = [];
     this.servicesMap = {};
+    this.loading = false;
     this.PgModel.getServices();
   }
 
@@ -90,10 +91,13 @@ export default class AppPageConnect extends Mixin(LitElement)
     this.PgModel.connectService(serviceName);
   }
 
-  _onConnectClicked() {
+  async _onConnectClicked() {
     let selectedItem = this.byId('dropdown').selectedItem;
     if( !selectedItem ) return;
-    this.PgModel.connectService(selectedItem.name);
+    
+    this.loading = true;
+    await this.PgModel.connectService(selectedItem.name);
+    this.loading = false;
   }
 
   _onManageClicked() {
