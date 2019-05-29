@@ -23,7 +23,8 @@ export default class AppPageUpload extends Mixin(LitElement)
       tableView : {type: String},
       unknownColumns : {type: Array},
       hasUnknownCols : {type: Boolean},
-      availableColumns : {type: Array}
+      availableColumns : {type: Array},
+      analyzeData : {type: Object}
     }
   }
 
@@ -55,6 +56,11 @@ export default class AppPageUpload extends Mixin(LitElement)
     this.unknownColumns = [];
     this.hasUnknownCols = false;
     this.availableColumns = [];
+    this.analyzeData = {
+      updates : [],
+      inserts : [],
+      deletes : []
+    };
     this.tableView = '';
     this.currentFile = '';
     if( this.tableDropDown  ) {
@@ -106,7 +112,12 @@ export default class AppPageUpload extends Mixin(LitElement)
 
     if( this.isRevisionFile ) {
       this.analyzeData = await this.PgdmModel.analyzeUpdate(info.source.name, info.data, info.source.revision);
-      console.log(this.analyzeData);
+      if( this.analyzeData.updates.length === 0 &&
+        this.analyzeData.inserts.length === 0 && 
+        this.analyzeData.deletes.length === 0 ) {
+        this.hasError = true;
+        this.errorMessage = 'No updates found';
+      }
     }
 
     if( info.source ) {
@@ -156,7 +167,7 @@ export default class AppPageUpload extends Mixin(LitElement)
     } else if( this.isReplaceFile ) {
       resp = await this.PgdmModel.replace(filename, this.currentSheetInfo.source.table_view, this.currentSheetInfo.data);
     } else if( this.isRevisionFile ) {
-      // resp = await this.PgdmModel.
+      resp = await this.PgdmModel.update(this.analyzeData);
     }
 
     if( resp.state === 'error' ) {
@@ -176,6 +187,14 @@ export default class AppPageUpload extends Mixin(LitElement)
     if( e.state === 'started' ) {
       this.uploadPanel.setProgress(0, 0);
     } else if( e.state === 'inserting' ) {
+      this.uploadPanel.setProgress(e.payload.complete, e.payload.total);
+    }
+  }
+
+  _onPgdmUpdateUpdate(e) {
+    if( e.state === 'started' ) {
+      this.uploadPanel.setProgress(0, 0);
+    } else if( e.state === 'updating' ) {
       this.uploadPanel.setProgress(e.payload.complete, e.payload.total);
     }
   }

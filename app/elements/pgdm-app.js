@@ -24,7 +24,9 @@ import "./pages/upload/app-page-upload"
 import "./pages/manage/app-page-manage"
 
 // for development
-window.autoConnect = 'localdev'
+// window.autoConnect = 'localdev'
+
+// TODO: https://github.com/electron-userland/electron-builder
 
 const FULL_LAYOUT = ['connect', 'edit-connection', 'new-connection', 'manage-connections'];
 

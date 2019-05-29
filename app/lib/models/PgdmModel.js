@@ -17,6 +17,10 @@ class PgdmModel extends BaseModel {
     model.on('insert-start', () => this.store.onInsertStart());
     model.on('insert-update', e => this.store.onInsertUpdate(e));
     model.on('insert-end', () => this.store.onInsertEnd());
+
+    model.on('update-start', () => this.store.onUpdateStart());
+    model.on('update-update', e => this.store.onUpdateUpdate(e));
+    model.on('update-end', () => this.store.onUpdateEnd());
   }
 
   async _loadUids(e) {
@@ -42,11 +46,11 @@ class PgdmModel extends BaseModel {
 
   async update(analyzeData) {
     try {
-      await model.insert(filename, null, table, data);
+      await model.update(analyzeData);
     } catch(e) {
-      this.store.onInsertError(e);
+      this.store.onUpdateError(e);
     }
-    return this.store.data.insert;
+    return this.store.data.update;
   }
 
   async analyzeUpdate(filename, data, revision) {

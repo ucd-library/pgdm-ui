@@ -145,6 +145,23 @@ ${sharedStyles}
   <b>${this.unknownColumns.join(', ')}</b>.  Available columns are: <b>${this.availableColumns.join(', ')}</b>.
 </div>
 
+<div ?hidden="${!this.isRevisionFile}" class="run" style="display: flex; justify-content: center">
+  <table>
+    <tr>
+      <td>Row UPDATEs</td>
+      <td>${this.analyzeData.updates.length}</td>
+    </tr>
+    <tr>
+      <td>Row INSERTs</td>
+      <td>${this.analyzeData.inserts.length}</td>
+    </tr>
+    <tr>
+      <td>Row DELETEs</td>
+      <td>${this.analyzeData.deletes.length}</td>
+    </tr>
+  </table>
+</div>
+
 <div ?hidden="${!this.runErrorMessage}" class="error run">
   <div>${this.runErrorMessage}</div>
 </div>

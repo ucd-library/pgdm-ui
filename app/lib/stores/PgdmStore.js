@@ -8,6 +8,7 @@ class PgdmStore extends BaseStore {
     this.data = {
       exportCsv : {},
       insert : {},
+      update : {},
       list : {},
       delete : {},
       tables : {}
@@ -15,9 +16,11 @@ class PgdmStore extends BaseStore {
 
     this.events = {
       PGDM_INSERT_UPDATE : 'pgdm-insert-update',
+      PGDM_UPDATE_UPDATE : 'pgdm-update-update',
       PGDM_LIST_UPDATE : 'pgdm-list-update',
       PGDM_DELETE_UPDATE : 'pgdm-delete-update',
-      PGDM_TABLES_UPDATE : 'pgdm-tables-update'
+      PGDM_TABLES_UPDATE : 'pgdm-tables-update',
+      PGDM_EXPORT_CSV_UPDATE : 'pgdm-export-csv-update'
     }
   }
 
@@ -49,6 +52,36 @@ class PgdmStore extends BaseStore {
   _setInsertState(state) {
     this.data.insert = state;
     this.emit(this.events.PGDM_INSERT_UPDATE, state);
+  }
+
+  // UPDATE
+  onUpdateStart() {
+    this._setUpdateState({state: 'started'});
+  }
+
+  onUpdateUpdate(e) {
+    this._setUpdateState({
+      state: 'updating',
+      payload : e
+    });
+  }
+
+  onUpdateEnd(e) {
+    this._setUpdateState({
+      state: 'complete'
+    });
+  }
+
+  onUpdateError(e) {
+    this._setUpdateState({
+      state : this.STATE.ERROR,
+      error : e
+    });
+  }
+
+  _setUpdateState(state) {
+    this.data.update = state;
+    this.emit(this.events.PGDM_UPDATE_UPDATE, state);
   }
 
   // LIST
