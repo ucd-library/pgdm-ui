@@ -63,6 +63,9 @@ export default class AppDropdown extends LitElement {
     if( changedProperties.has('opened') ) {
       this._onOpenedChanged();
     }
+    // } else if( changedProperties.has('selectedIndex') ) {
+    //   this._setActiveIndex();
+    // }
   }
 
   _onInputKeyup(e) {
@@ -82,7 +85,7 @@ export default class AppDropdown extends LitElement {
   _onEnter() {
     this.opened = !this.opened;
     if( !this.opened && this.activeIndex > -1 ) {
-      this._setSelectedIndex(this.activeIndex);
+      this.setSelectedIndex(this.activeIndex);
     }
   }
 
@@ -120,14 +123,16 @@ export default class AppDropdown extends LitElement {
 
   _onItemClicked(e) {
     let index = parseInt(e.currentTarget.getAttribute('index'));
-    this._setSelectedIndex(index);
+    this.setSelectedIndex(index);
     this.opened = false;
   }
 
-  _setSelectedIndex(index) {
+  setSelectedIndex(index) {
     this.selectedIndex = index;
     this.selectedItem = this.items[this.selectedIndex];
-    let event = new CustomEvent('select', { 
+    let event = new CustomEvent('select', {
+      bubbles: true,
+      composed: true,
       detail: {
         selectedIndex: this.selectedIndex,
         selectedItem: this.selectedItem

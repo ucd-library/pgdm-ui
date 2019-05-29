@@ -53,12 +53,21 @@ ${sharedStyles}
     text-align: center;
     color: var(--app-red);
   }
+
+  .error.run {
+    text-align: left;
+    overflow: auto;
+    box-sizing: border-box;
+    display: flex;
+    max-height: 300px;
+    margin-bottom: 40px;
+  }
 </style>  
 
 <div class="layout">
   <div style="flex:1">
     <h2>Upload Data Source File</h2>
-    <app-source-upload @select="${this._onFileSelect}"></app-source-upload>
+    <app-source-upload id="upload" @select="${this._onFileSelect}"></app-source-upload>
   </div>
   <div class="right-panel">
     <div>This is a...</div>
@@ -70,7 +79,7 @@ ${sharedStyles}
       <div ?hidden="${!this.fileSelected}">
         <div ?hidden="${this.isNewFile}" class="unselect help">The provided source file already exists in database.</div>
         <div ?hidden="${!this.isNewFile}" class="select help">The provided source file does not exist in database.  Select table 
-          to insert into below.
+          to INSERT into below.
         </div>
       </div>
     </div>
@@ -120,14 +129,24 @@ ${sharedStyles}
 <div class="break"></div>
 
 <div ?hidden="${!this.isNewFile}">
-  <h2>Database Table</h2>
-  <app-tables-dropdown></app-tables-dropdown>
+  <h2>Database Table View</h2>
+  <div>Select which table view to INSERT spreadsheet into.</div>
+  <app-tables-dropdown id="tableDropDown" @select="${this._onTableDropDownChange}"></app-tables-dropdown>
 
   <div class="break"></div>
 </div>
 
-<div style="text-align: right">
-  <button>Save Changes</button>
+<div ?hidden="${!this.hasUnknownCols}" class="error">
+  The table view '${this.tableView}' does not have to following columns: 
+  <b>${this.unknownColumns.join(', ')}</b>.  Available columns are: <b>${this.availableColumns.join(', ')}</b>.
+</div>
+
+<div ?hidden="${!this.runErrorMessage}" class="error run">
+  <div>${this.runErrorMessage}</div>
+</div>
+
+<div style="text-align: right" ?hidden="${this.hasError}">
+  <button @click="${this._onSaveClicked}">Save Changes</button>
 </div>
 
 `;}

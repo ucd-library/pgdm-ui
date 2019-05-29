@@ -14,16 +14,14 @@ import "@ucd-lib/cork-app-utils"
 import "./style-properties"
 
 // local imports
-import "./utils/app-nav"
 import "./layout/app-header"
 import "./layout/app-connection-header"
 import "./layout/app-left-nav"
 import "./pages/connect/app-page-connect"
 import "./pages/connect/app-page-edit-connection"
 import "./pages/connect/app-page-manage-connections"
-import "./pages/insert/app-insert"
-import "./pages/delete/app-delete"
 import "./pages/upload/app-page-upload"
+import "./pages/manage/app-page-manage"
 
 // for development
 window.autoConnect = 'localdev'

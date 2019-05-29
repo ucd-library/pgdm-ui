@@ -21,6 +21,10 @@ export default class AppTablesDropdown extends Mixin(LitElement)
     this.tables = [];
   }
 
+  firstUpdated() {
+    this.dropdown = this.byId('dropdown');
+  }
+
   _onPgdmTablesUpdate(e) {
     if( e.state !== 'loaded' ) return;
     this.tables = [{table_view:' '}].concat(e.payload.map(t => Object.assign({}, t)));
@@ -29,6 +33,11 @@ export default class AppTablesDropdown extends Mixin(LitElement)
   _renderDropdownItem(item) {
     return item.table_view;
   }
+
+  reset() {
+    this.dropdown.setSelectedIndex(0);
+  }
+
 
 }
 

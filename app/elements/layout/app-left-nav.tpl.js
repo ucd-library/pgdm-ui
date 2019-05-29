@@ -59,13 +59,13 @@ return html`
 
 <div class="layout">
   <div style="text-align: center">
-    <button active>
+    <button ?active="${this.isUpload}" @click="${this._onUploadClicked}">
       <div><iron-icon icon="note-add"></iron-icon></div>
       <div>Upload</div>
     </button>
   </div>
   <div style="text-align: center">
-    <button>
+    <button ?active="${this.isManage}" @click="${this._onManageClicked}">
       <div><iron-icon icon="settings"></iron-icon></div>
       <div>Manage</div>
     </button>

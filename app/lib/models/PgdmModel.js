@@ -1,4 +1,5 @@
 const {model, csv} = require('@ucd-lib/pgdm');
+const path = require('path');
 const {BaseModel} = require('@ucd-lib/cork-app-utils');
 const PgdmStore = require('../stores/PgdmStore');
 const PgStore = require('../stores/PgStore');
@@ -30,11 +31,8 @@ class PgdmModel extends BaseModel {
     }
   }
 
-  async insert(filepath, table) {
-    try {    
-      let filename = model.checkAndGetFilename(filepath);
-      let data = (await csv.getData(filepath)).records;
-  
+  async insert(filename, table, data) {
+    try {
       await model.insert(filename, null, table, data);
     } catch(e) {
       this.store.onInsertError(e);
@@ -42,11 +40,18 @@ class PgdmModel extends BaseModel {
     return this.store.data.insert;
   }
 
+  async replace(filename, table, data) {
+    let resp = await this.delete(path.parse(filename).name);
+    if( resp.state === 'error' ) return 'error';
+    return await this.insert(filename, table, data);
+  }
+
   async tables() {
 
   }
 
   async list(query) {
+    query = Object.assign({}, query);
     if( query.source ) query.source = '%'+query.source+'%';
     if( query.view ) query.view = '%'+query.view+'%';
 
