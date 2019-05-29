@@ -8,6 +8,7 @@ export default class AppSourceUpload extends LitElement {
     return {
       dragActive : {type: Boolean},
       file : {type: String},
+      attachedView : {type: String},
       progress : {type: Number},
       state : {type: String},
       totalRows : {type: Number},
@@ -54,12 +55,14 @@ export default class AppSourceUpload extends LitElement {
     this.progress = 0;
     this.totalRows = 0;
     this.completedRows = 0;
+    this.attachedView = '';
     this.state = 'init';
   }
 
-  setFile(file) {
+  setFile(file, attachedView) {
     this.state = 'file-set';
     this.file = file;
+    this.attachedView = attachedView;
   }
 
   setProgress(completed, total) {
@@ -82,7 +85,7 @@ export default class AppSourceUpload extends LitElement {
       return html`<b>Drag and drop</b> file here<br />
       or click to browse`;
     }
-    return html`<b>${this.file}</b>`;
+    return html`<b>${this.file}</b> ${this.attachedView ? html`<br /> attached to ${this.attachedView}` : ''}`;
   }
 
   _fireEvent(path) {

@@ -62,6 +62,10 @@ ${sharedStyles}
     max-height: 300px;
     margin-bottom: 40px;
   }
+
+  [active-checkbox] {
+    font-weight: bold;
+  }
 </style>  
 
 <div class="layout">
@@ -72,7 +76,7 @@ ${sharedStyles}
   <div class="right-panel">
     <div>This is a...</div>
     <div class="checkbox-panel">
-      <div>
+      <div ?active-checkbox="${this.isNewFile}">
         <iron-icon icon="radio-button-unchecked" ?hidden="${this.isNewFile}"></iron-icon>
         <iron-icon icon="check-circle" ?hidden="${!this.isNewFile}"></iron-icon> New File
       </div>
@@ -85,7 +89,7 @@ ${sharedStyles}
     </div>
 
     <div class="checkbox-panel">
-      <div>
+      <div ?active-checkbox="${this.isRevisionFile}">
         <iron-icon icon="radio-button-unchecked" ?hidden="${this.isRevisionFile}"></iron-icon>
         <iron-icon icon="check-circle" ?hidden="${!this.isRevisionFile}"></iron-icon> Revision (updates to exported source file)
       </div>
@@ -94,7 +98,7 @@ ${sharedStyles}
           <div ?hidden="${!this.isNewFile}">The provided source file does not exist in database</div>
           <div ?hidden="${this.isNewFile}">The provided source file does not contain the 
             ${this.uidColumn} column. If you meant to preform a revision, export the table from the 
-            <a href="#management">management</a> screen.
+            <a href="#manage">management</a> screen.
           </div>
         </div>
         <div ?hidden="${!this.isRevisionFile}" class="select help">The provided source file contains the ${this.uidColumn} column with the correct 
@@ -104,7 +108,7 @@ ${sharedStyles}
     </div>
 
     <div class="checkbox-panel">
-      <div>
+      <div ?active-checkbox="${this.isReplaceFile}">
         <iron-icon icon="radio-button-unchecked" ?hidden="${this.isReplaceFile}"></iron-icon>
         <iron-icon icon="check-circle" ?hidden="${!this.isReplaceFile}"></iron-icon> Replacement (full replacement of source file)
       </div>
@@ -114,8 +118,8 @@ ${sharedStyles}
           <div ?hidden="${this.isNewFile}">The provided source file is a exported file (contains
           ${this.uidColumn} column with revision tag).</div>
         </div>
-        <div ?hidden="${!this.isReplaceFile}" class="select help">The provided source file exists in the database and is not
-          a exported pgdm file (does not contain the ${this.uidColumn} column with the correct revision tag).
+        <div ?hidden="${!this.isReplaceFile}" class="select help">The provided source file exists in the database and was not 
+        exported via PGDM (The file does not contain the ${this.uidColumn} column with the correct revision tag).
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@ class PgdmStore extends BaseStore {
     super();
 
     this.data = {
+      exportCsv : {},
       insert : {},
       list : {},
       delete : {},
@@ -95,7 +96,7 @@ class PgdmStore extends BaseStore {
 
   onDeleteError(source, error) {
     this._setDeleteState({
-      state : this.STATE.DELETED,
+      state : this.STATE.ERROR,
       error, source
     });
   }
@@ -103,6 +104,34 @@ class PgdmStore extends BaseStore {
   _setDeleteState(state) {
     this.data.delete = state;
     this.emit(this.events.PGDM_DELETE_UPDATE, state);
+  }
+
+  // Export
+  onExportCsvStart(source, filepath) {
+    this._setExportCsvState({
+      state : 'exporting',
+      source, filepath
+    });
+  }
+
+  onExportCsvComplete(source, filepath, payload) {
+    this._setExportCsvState({
+      state : 'exported',
+      source, filepath,
+      payload
+    });
+  }
+
+  onExportCsvError(source, filepath, error) {
+    this._setExportCsvState({
+      state : this.STATE.ERROR,
+      error, source, filepath
+    });
+  }
+
+  _setExportCsvState(state) {
+    this.data.exportCsv = state;
+    this.emit(this.events.PGDM_EXPORT_CSV_UPDATE, state);
   }
 
   // TABLES

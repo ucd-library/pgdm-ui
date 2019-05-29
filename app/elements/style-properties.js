@@ -8,6 +8,7 @@ html {
   --app-light-blue      : #9be7ff;
 
   --app-gold            : #daaa00;
+  --app-light-gold      : #f8eecc;
   --app-red             : #ba0c2f;
 
   --app-extra-light-gray  : #f3f3f3;

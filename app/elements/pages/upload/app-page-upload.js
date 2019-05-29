@@ -80,7 +80,10 @@ export default class AppPageUpload extends Mixin(LitElement)
       return;
     }
 
-    this.uploadPanel.setFile(info.sourceName+'.csv');
+    let attachedView = '';
+    if( info.source && info.source.table_view ) attachedView = info.source.table_view;
+
+    this.uploadPanel.setFile(info.sourceName+'.csv', attachedView);
 
     this.currentSheetInfo = info;
     if( info.data.length === 0 ) {
@@ -94,11 +97,16 @@ export default class AppPageUpload extends Mixin(LitElement)
     } else if( info.type === 'revision' ) {
       this.isRevisionFile = true;
     } else if( info.type === 'replacement' ) {
-      this.isReplaceFile = true
+      this.isReplaceFile = true;
     }
 
     if( this.isRevisionFile || this.isReplaceFile ) {
       this._verifyColumns(info.source.table_view);
+    }
+
+    if( this.isRevisionFile ) {
+      this.analyzeData = await this.PgdmModel.analyzeUpdate(info.source.name, info.data, info.source.revision);
+      console.log(this.analyzeData);
     }
 
     if( info.source ) {
@@ -147,6 +155,8 @@ export default class AppPageUpload extends Mixin(LitElement)
       resp = await this.PgdmModel.insert(filename, this.currentSheetInfo.source.table_view, this.currentSheetInfo.data);
     } else if( this.isReplaceFile ) {
       resp = await this.PgdmModel.replace(filename, this.currentSheetInfo.source.table_view, this.currentSheetInfo.data);
+    } else if( this.isRevisionFile ) {
+      // resp = await this.PgdmModel.
     }
 
     if( resp.state === 'error' ) {
@@ -170,14 +180,19 @@ export default class AppPageUpload extends Mixin(LitElement)
     }
   }
 
-  _onPgdmDeleteUpdate(e) {
-    if( e.state === 'deleting' ) {
-      this.uploadPanel.setProgress(0, 0);
-    }
-  }
+  // _onPgdmDeleteUpdate(e) {
+  //   if( e.state === 'deleting' ) {
+  //     this.uploadPanel.setProgress(0, 0);
+  //   }
+  // }
 
   _onTableDropDownChange(e) {
-    if( e.detail.selectedIndex <= 0 ) return;
+    if( e.detail.selectedIndex <= 0 ) {
+      if( this.currentSheetInfo && this.currentSheetInfo.source ) { 
+        this.currentSheetInfo.source.table_view = null;
+      }
+      return;
+    }
     this._verifyColumns(e.detail.selectedItem.table_view);
     if( !this.currentSheetInfo.source ) {
       this.currentSheetInfo.source = {};

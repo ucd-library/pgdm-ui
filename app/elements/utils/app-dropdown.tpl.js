@@ -48,6 +48,7 @@ return html`
     border-bottom: 1px dashed white;
     padding: 10px;
     cursor: pointer;
+    min-height: 26px;
   }
   .item:last-child {
     border-bottom: none;

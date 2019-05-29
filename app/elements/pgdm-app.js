@@ -57,7 +57,8 @@ export default class PgdmApp extends Mixin(PolymerElement)
   async ready() {
     super.ready();
     window.location.hash = 'connect';
-    // window.location.hash = 'manage-connections';
+    // setTimeout(() => window.location.hash = 'manage', 500)
+    
   }
 
   /**

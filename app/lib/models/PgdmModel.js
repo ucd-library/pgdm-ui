@@ -40,6 +40,19 @@ class PgdmModel extends BaseModel {
     return this.store.data.insert;
   }
 
+  async update(analyzeData) {
+    try {
+      await model.insert(filename, null, table, data);
+    } catch(e) {
+      this.store.onInsertError(e);
+    }
+    return this.store.data.insert;
+  }
+
+  async analyzeUpdate(filename, data, revision) {
+    return model.analyzeUpdate(filename, null, data, revision);
+  }
+
   async replace(filename, table, data) {
     let resp = await this.delete(path.parse(filename).name);
     if( resp.state === 'error' ) return 'error';
@@ -74,6 +87,17 @@ class PgdmModel extends BaseModel {
       this.store.onDeleteError(source, e);
     }
     return this.store.data.delete;
+  }
+
+  async exportCsv(source, filepath) {
+    this.store.onExportCsvStart(source,filepath);
+    try {
+      let resp = await model.exportCsv(source, filepath);
+      this.store.onExportCsvComplete(source, filepath, resp);
+    } catch(e) {
+      this.store.onExportCsvError(source, filepath, e);
+    }
+    return this.store.data.exportCsv;
   }
 
   analyzeFile(path) {
