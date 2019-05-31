@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder -mwl",
+    "dist": "electron-builder -ml",
+    "dist-windows": "electron-builder -w",
     "watch": "cd app && webpack --config webpack-watch.config.js --watch"
   },
   "postinstall": "electron-builder install-app-deps",
