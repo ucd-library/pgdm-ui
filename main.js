@@ -1,9 +1,38 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow} = require('electron');
+const localShortcut = require('electron-localshortcut');
+const isDev = require('electron-is-dev');
+// const debug = require('electron-debug');
+
+const isMacOS = process.platform === 'darwin';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
+
+function devTools(win = BrowserWindow.getFocusedWindow()) {
+	if (win) {
+		toggleDevTools(win);
+	}
+}
+
+function toggleDevTools(win = BrowserWindow.getFocusedWindow()) {
+	if (win) {
+		const {webContents} = win;
+		if (webContents.isDevToolsOpened()) {
+			webContents.closeDevTools();
+		} else {
+			webContents.openDevTools({});
+		}
+	}
+}
+
+function refresh(win = BrowserWindow.getFocusedWindow()) {
+	if (win) {
+		win.webContents.reloadIgnoringCache();
+	}
+}
+
 
 function createWindow () {
   // Create the browser window.
@@ -14,6 +43,11 @@ function createWindow () {
       nodeIntegration: true
     }
   })
+
+  if( !isDev ) {
+    localShortcut.register(isMacOS ? 'Command+Alt+I' : 'Control+Shift+I', devTools);
+    localShortcut.register('CommandOrControl+R', refresh);
+  }
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')

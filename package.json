@@ -5,8 +5,10 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "dist": "electron-builder -mwl",
     "watch": "cd app && webpack --config webpack-watch.config.js --watch"
   },
+  "postinstall": "electron-builder install-app-deps",
   "repository": "",
   "keywords": [
     "Electron",
@@ -20,8 +22,26 @@
   "devDependencies": {
     "@ucd-lib/cork-app-build": "^0.1.5",
     "electron": "^4.0.4",
+    "electron-builder": "^20.41.0",
     "webpack": "^4.28.4",
     "webpack-cli": "^3.2.3"
+  },
+  "build": {
+    "appId": "edu.ucdavis.library.pgdm",
+    "productName": "PostGres Data Management",
+    "files": [
+      "./app/assets/*",
+      "./bundle.js",
+      "./index.html",
+      "./main.js"
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools"
+    },
+    "win": {},
+    "linux": {
+      "category": "Development"
+    }
   },
   "dependencies": {
     "@polymer/iron-icons": "^3.0.1",
@@ -31,9 +51,10 @@
     "@polymer/polymer": "^3.1.0",
     "@ucd-lib/cork-app-state": "^1.0.0",
     "@ucd-lib/cork-app-utils": "^4.1.2",
-    "@ucd-lib/pgdm": "0.0.2",
+    "@ucd-lib/pgdm": "0.0.3",
     "@vaadin/vaadin-upload": "^4.2.1",
     "csv": "^5.1.1",
+    "electron-debug": "^3.0.0",
     "i": "^0.3.6",
     "lit-element": "^2.1.0",
     "multi-ini": "^2.0.0",
