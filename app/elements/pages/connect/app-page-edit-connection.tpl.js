@@ -120,7 +120,9 @@ ${sharedcss}
   <div style="flex:1; text-align:right">
     <button class="inverse" @click="${this._onCancelClicked}">Cancel</button>
     <button id="connect" ?hidden="${!this.newConnection}" @click="${this._onConnectNew}">Connect</button>
-    <button id="save-edit" ?hidden="${this.newConnection}" >Save Changes</button>
+    <button id="save-edit" 
+      ?hidden="${this.newConnection}" 
+      @click="${this._onSaveChangesClicked}">Save Changes!</button>
   </div>
 </div>
 

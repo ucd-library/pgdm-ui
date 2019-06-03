@@ -51,7 +51,7 @@
     "@polymer/paper-spinner": "^3.0.2",
     "@polymer/polymer": "^3.1.0",
     "@ucd-lib/cork-app-state": "^1.0.0",
-    "@ucd-lib/cork-app-utils": "^4.2.2",
+    "@ucd-lib/cork-app-utils": "^4.2.3",
     "@ucd-lib/pgdm": "0.0.3",
     "@vaadin/vaadin-upload": "^4.2.1",
     "csv": "^5.1.1",

@@ -26,6 +26,7 @@ export default class AppPageEditConnection extends Mixin(LitElement)
   }
 
   firstUpdated() {
+    console.log(this.shadowRoot.querySelector('#name'));
     this.inputs = {
       name : this.byId('name'),
       host : this.byId('host'),
@@ -36,9 +37,11 @@ export default class AppPageEditConnection extends Mixin(LitElement)
       ssl : this.byId('ssl'),
       saveNew : this.byId('save-new')
     };
+    console.log(this.inputs);
   }
 
   reset(service={}) {
+    this.originalService = service;
     this.inputs.name.value = service.name || '';
     this.inputs.host.value = service.host || 'localhost';
     this.inputs.port.value = service.port || 5432;
@@ -46,7 +49,7 @@ export default class AppPageEditConnection extends Mixin(LitElement)
     this.inputs.password.value = service.password || '';
     this.inputs.database.value = service.dbname || 'postgres';
     
-    if( service.sslmode === 'required' ) this.inputs.ssl.setAttribute('checked', 'checked');
+    if( service.sslmode === 'require' ) this.inputs.ssl.setAttribute('checked', 'checked');
     else this.inputs.ssl.removeAttribute('checked');
 
     this.inputs.saveNew.removeAttribute('checked');
@@ -62,7 +65,7 @@ export default class AppPageEditConnection extends Mixin(LitElement)
       user : this.inputs.username.value,
       password : this.inputs.password.value,
       dbname : this.inputs.database.value,
-      sslmode : this.inputs.ssl.checked ? 'required' : ''
+      sslmode : this.inputs.ssl.checked ? 'require' : ''
     }
   }
 
@@ -96,6 +99,25 @@ export default class AppPageEditConnection extends Mixin(LitElement)
       delete service.name;
       this.PgModel.saveService(name, service, true);
     }
+  }
+
+  async _onSaveChangesClicked() {
+    let service = this.value;
+
+    if( !service.name ) {
+      this.error = new Error('To save connection you must provide a name.');
+      return
+    }
+
+    if( service.name !== this.originalService.name ) {
+      this.PgModel.removeService(this.originalService.name);
+    }
+
+    let name = service.name;
+    delete service.name;
+    this.PgModel.saveService(name, service, true);
+
+    this.AppStateModel.setWindowLocation('manage-connections');
   }
 
 }
