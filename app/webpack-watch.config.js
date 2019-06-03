@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 let config = require('@ucd-lib/cork-app-build').watch({
   // root directory, all paths below will be relative to root
@@ -14,6 +15,10 @@ let config = require('@ucd-lib/cork-app-build').watch({
 });
 
 config.target = 'electron-renderer';
+
+// config.plugins = [
+//   new webpack.IgnorePlugin({resourceRegExp: /^pg-native$/})
+// ];
 
 // config.module.rules.push({
 //   test: /\.tpl\.html$/,

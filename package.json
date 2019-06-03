@@ -7,7 +7,7 @@
     "start": "electron .",
     "dist": "electron-builder -ml",
     "dist-windows": "electron-builder -w",
-    "watch": "cd app && webpack --config webpack-watch.config.js --watch"
+    "watch": "cd app && webpack --config webpack-watch.config.js --watch --display-chunks"
   },
   "postinstall": "electron-builder install-app-deps",
   "repository": "",
@@ -51,12 +51,11 @@
     "@polymer/paper-spinner": "^3.0.2",
     "@polymer/polymer": "^3.1.0",
     "@ucd-lib/cork-app-state": "^1.0.0",
-    "@ucd-lib/cork-app-utils": "^4.1.2",
+    "@ucd-lib/cork-app-utils": "^4.2.2",
     "@ucd-lib/pgdm": "0.0.3",
     "@vaadin/vaadin-upload": "^4.2.1",
     "csv": "^5.1.1",
     "electron-debug": "^3.0.0",
-    "i": "^0.3.6",
     "lit-element": "^2.1.0",
     "multi-ini": "^2.0.0",
     "pg": "^7.8.1",
