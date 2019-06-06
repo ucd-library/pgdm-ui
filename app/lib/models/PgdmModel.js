@@ -58,9 +58,10 @@ class PgdmModel extends BaseModel {
   }
 
   async replace(filename, table, data) {
+    debugger;
     let resp = await this.delete(path.parse(filename).name);
-    if( resp.state === 'error' ) return 'error';
-    return await this.insert(filename, table, data);
+    if( resp.state === 'error' ) return resp;
+    return this.insert(filename, table, data);
   }
 
   async tables() {

@@ -71,7 +71,6 @@ export default class AppPageUpload extends Mixin(LitElement)
   _onPgTablesUpdate(e) {
     if( e.state !== 'loaded' ) return;
     this.tables = e.payload.map(t => Object.assign({}, t));
-    console.log(this.tables);
   }
 
   async _onFileSelect(e) {

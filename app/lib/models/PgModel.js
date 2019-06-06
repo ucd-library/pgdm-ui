@@ -128,6 +128,7 @@ class PgModel extends BaseModel {
     let info = await pgdm.pg.querySingle(`select * from information_schema.routines where routine_name = $1`, [triggerFnName]);
     if( !info ) return null;
 
+    if( !info.routine_definition ) return null;
     let fnName = info.routine_definition.match(/PERFORM *(\w+) *\(/);
 
     if( !fnName ) return null;
