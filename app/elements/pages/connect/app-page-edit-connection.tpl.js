@@ -102,6 +102,12 @@ ${sharedcss}
   <input type="text" id="database" />
 </div>
 
+<div class="input-layout">
+  <label>Schema</label>
+  <input type="text" id="pgdmschema" />
+</div>
+
+
 <div class="checkbox-layout">
   <input type="checkbox" id="ssl" />
   <label for="ssl">Require SSL</label>
@@ -122,7 +128,7 @@ ${sharedcss}
     <button id="connect" ?hidden="${!this.newConnection}" @click="${this._onConnectNew}">Connect</button>
     <button id="save-edit" 
       ?hidden="${this.newConnection}" 
-      @click="${this._onSaveChangesClicked}">Save Changes!</button>
+      @click="${this._onSaveChangesClicked}">Save Changes</button>
   </div>
 </div>
 

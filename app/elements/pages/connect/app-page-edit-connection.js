@@ -33,6 +33,7 @@ export default class AppPageEditConnection extends Mixin(LitElement)
       username : this.byId('username'),
       password : this.byId('password'),
       database : this.byId('database'),
+      pgdmschema : this.byId('pgdmschema'),
       ssl : this.byId('ssl'),
       saveNew : this.byId('save-new')
     };
@@ -46,6 +47,7 @@ export default class AppPageEditConnection extends Mixin(LitElement)
     this.inputs.username.value = service.user || 'postgres';
     this.inputs.password.value = service.password || '';
     this.inputs.database.value = service.dbname || 'postgres';
+    this.inputs.pgdmschema.value = service.pgdmschema || service.schema || '';
     
     if( service.sslmode === 'require' ) this.inputs.ssl.setAttribute('checked', 'checked');
     else this.inputs.ssl.removeAttribute('checked');
@@ -63,6 +65,7 @@ export default class AppPageEditConnection extends Mixin(LitElement)
       user : this.inputs.username.value,
       password : this.inputs.password.value,
       dbname : this.inputs.database.value,
+      pgdmschema : this.inputs.pgdmschema.value,
       sslmode : this.inputs.ssl.checked ? 'require' : ''
     }
   }
