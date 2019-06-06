@@ -79,7 +79,7 @@ ${sharedStyles}
   ${this.results.map((result,index) => html`
     <div class="result" @click="${this._onResultClicked}" index="${index}" ?active="${result.active}">
       <div style="flex:1">
-        <div>${result.name}</div>
+        <div>${result.name}.csv</div>
         <div class="view">${result.table_view}</div>
       </div>
       <div style="width: 25px;">${result.revision}</div>

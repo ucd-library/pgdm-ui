@@ -16,9 +16,9 @@ let config = require('@ucd-lib/cork-app-build').watch({
 
 config.target = 'electron-renderer';
 
-// config.plugins = [
-//   new webpack.IgnorePlugin({resourceRegExp: /^pg-native$/})
-// ];
+config.plugins = [
+  new webpack.IgnorePlugin({resourceRegExp: /^pg-native$/})
+];
 
 // config.module.rules.push({
 //   test: /\.tpl\.html$/,

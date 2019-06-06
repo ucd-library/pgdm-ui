@@ -26,7 +26,6 @@ export default class AppPageEditConnection extends Mixin(LitElement)
   }
 
   firstUpdated() {
-    console.log(this.shadowRoot.querySelector('#name'));
     this.inputs = {
       name : this.byId('name'),
       host : this.byId('host'),
@@ -37,7 +36,6 @@ export default class AppPageEditConnection extends Mixin(LitElement)
       ssl : this.byId('ssl'),
       saveNew : this.byId('save-new')
     };
-    console.log(this.inputs);
   }
 
   reset(service={}) {
