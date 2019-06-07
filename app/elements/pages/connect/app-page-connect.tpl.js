@@ -1,5 +1,6 @@
 import { html } from 'lit-element';
 import sharedcss from '../../shared-styles';
+const VERSION = require('../../../../package').version;
 
 export default function render() { 
 return html`
@@ -94,7 +95,8 @@ ${sharedcss}
       <paper-spinner-lite ?hidden="${!this.loading}" active></paper-spinner-lite>
     </div>
     <div class="manage-connections">
-      <a @click="${this._onManageClicked}">Manage Connections</a>
+      <div><a @click="${this._onManageClicked}">Manage Connections</a></div>
+      <div style="font-size: 11px">v${VERSION}</div>
     </div>
   </div>
 </div>
