@@ -104,7 +104,7 @@ ${sharedcss}
 
 <div class="input-layout">
   <label>Schema</label>
-  <input type="text" id="pgdmschema" />
+  <input type="text" id="schema" />
 </div>
 
 

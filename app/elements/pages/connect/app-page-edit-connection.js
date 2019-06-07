@@ -33,21 +33,23 @@ export default class AppPageEditConnection extends Mixin(LitElement)
       username : this.byId('username'),
       password : this.byId('password'),
       database : this.byId('database'),
-      pgdmschema : this.byId('pgdmschema'),
+      schema : this.byId('schema'),
       ssl : this.byId('ssl'),
       saveNew : this.byId('save-new')
     };
   }
 
   reset(service={}) {
+    if( !service.pgdm ) service.pgdm = {};
     this.originalService = service;
+
     this.inputs.name.value = service.name || '';
     this.inputs.host.value = service.host || 'localhost';
     this.inputs.port.value = service.port || 5432;
     this.inputs.username.value = service.user || 'postgres';
     this.inputs.password.value = service.password || '';
     this.inputs.database.value = service.dbname || 'postgres';
-    this.inputs.pgdmschema.value = service.pgdmschema || service.schema || '';
+    this.inputs.schema.value = service.pgdm.schema || '';
     
     if( service.sslmode === 'require' ) this.inputs.ssl.setAttribute('checked', 'checked');
     else this.inputs.ssl.removeAttribute('checked');
@@ -65,8 +67,10 @@ export default class AppPageEditConnection extends Mixin(LitElement)
       user : this.inputs.username.value,
       password : this.inputs.password.value,
       dbname : this.inputs.database.value,
-      pgdmschema : this.inputs.pgdmschema.value,
-      sslmode : this.inputs.ssl.checked ? 'require' : ''
+      sslmode : this.inputs.ssl.checked ? 'require' : '',
+      pgdm : {
+        schema : this.inputs.schema.value,
+      }
     }
   }
 
