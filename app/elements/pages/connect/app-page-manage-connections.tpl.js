@@ -74,7 +74,7 @@ ${this.services.map((service, index) =>
 <div class="new-connection">
   <!-- <div style=""></div> -->
   <div style="flex:1">
-    <a @click="${this._onCancelClicked}">Cancel</a>
+    <a @click="${this._onCancelClicked}"><iron-icon icon="arrow-back"></iron-icon> Back</a>
   </div>
   <div>
     <a @click="${this._onNewClicked}">New Connection <iron-icon icon="add-circle-outline"></iron-icon></a>

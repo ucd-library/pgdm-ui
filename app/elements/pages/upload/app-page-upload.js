@@ -15,6 +15,7 @@ export default class AppPageUpload extends Mixin(LitElement)
       isNewFile : {type: Boolean},
       isRevisionFile : {type: Boolean},
       isReplaceFile : {type: Boolean},
+      saving : {type: Boolean},
       uidColumn : {type : String},
       errorMessage : {type: String},
       runErrorMessage : {type: String},
@@ -24,7 +25,8 @@ export default class AppPageUpload extends Mixin(LitElement)
       unknownColumns : {type: Array},
       hasUnknownCols : {type: Boolean},
       availableColumns : {type: Array},
-      analyzeData : {type: Object}
+      analyzeData : {type: Object},
+      exportUpdatedFile : {type: String}
     }
   }
 
@@ -52,10 +54,12 @@ export default class AppPageUpload extends Mixin(LitElement)
     this.errorMessage = '';
     this.runErrorMessage = '';
     this.file = '';
+    this.exportUpdatedFile = '';
     this.currentSheetInfo = null;
     this.unknownColumns = [];
     this.hasUnknownCols = false;
     this.availableColumns = [];
+    this.saving = false;
     this.analyzeData = {
       updates : [],
       inserts : [],
@@ -117,6 +121,11 @@ export default class AppPageUpload extends Mixin(LitElement)
         this.hasError = true;
         this.errorMessage = 'No updates found';
       }
+
+      if( this.analyzeData.errors &&  this.analyzeData.errors.length ) {
+        this.hasError = true;
+        this.errorMessage = html(['<div>'+ this.analyzeData.errors.join('</div><div>')+'</div>']);
+      }
     }
 
     if( info.source ) {
@@ -160,14 +169,21 @@ export default class AppPageUpload extends Mixin(LitElement)
 
     let filename = path.parse(this.file).name;
 
+    this.saving = true;
+    this.exportUpdatedFile = '';
+    let exportUpdatedFile = '';
+
     let resp = {};
     if( this.isNewFile ) {
       resp = await this.PgdmModel.insert(filename, this.currentSheetInfo.source.table_view, this.currentSheetInfo.data);
+      exportUpdatedFile = this.file;
     } else if( this.isReplaceFile ) {
       resp = await this.PgdmModel.replace(filename, this.currentSheetInfo.source.table_view, this.currentSheetInfo.data);
     } else if( this.isRevisionFile ) {
       resp = await this.PgdmModel.update(this.analyzeData);
+      exportUpdatedFile = this.file;
     }
+    this.saving = false;
 
     if( resp.state === 'error' ) {
       this.uploadPanel.reset();
@@ -175,6 +191,8 @@ export default class AppPageUpload extends Mixin(LitElement)
     } else {
       this.uploadPanel.setComplete();
       this.reset();
+      this.exportUpdatedFile = exportUpdatedFile;
+
       setTimeout(() => {
         if( this.uploadPanel.state !== 'complete' ) return;
         this.uploadPanel.reset();
@@ -216,6 +234,27 @@ export default class AppPageUpload extends Mixin(LitElement)
       this.currentSheetInfo.source = {};
     }
     this.currentSheetInfo.source.table_view = e.detail.selectedItem.table_view;
+  }
+
+  async _onReplaceFileClicked() {
+    let fileinfo = path.parse(this.exportUpdatedFile);
+
+    let resp = await this.PgdmModel.exportCsv(
+      fileinfo.name, 
+      path.join(fileinfo.dir, fileinfo.name)  
+    );
+
+    if( resp.error ) {
+      alert(resp.error.message);
+    } else {
+      alert(this.exportUpdatedFile+' Replaced.');
+      this.exportUpdatedFile = '';
+    }
+  }
+
+  _onCancelClicked() {
+    this.reset();
+    this.uploadPanel.reset();
   }
 
 }

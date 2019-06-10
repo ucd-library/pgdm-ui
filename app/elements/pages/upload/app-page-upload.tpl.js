@@ -63,6 +63,19 @@ ${sharedStyles}
     margin-bottom: 40px;
   }
 
+  .export {
+    font-size: 12px;
+    margin-top: 30px;
+    text-align: right;
+  }
+
+  .export a {
+    cursor: pointer;
+    color: var(--app-primary-color);
+    font-weight: bold;
+    font-size: 14px;
+  }
+
   [active-checkbox] {
     font-weight: bold;
   }
@@ -166,8 +179,19 @@ ${sharedStyles}
   <div>${this.runErrorMessage}</div>
 </div>
 
-<div style="text-align: right" ?hidden="${this.hasError}">
-  <button @click="${this._onSaveClicked}">Save Changes</button>
+<div style="display: flex; align-items: center">
+  <div style="flex:1">
+    <button @click="${this._onCancelClicked}">Cancel</button>
+  </div>
+  <div ?hidden="${this.hasError || this.saving}">
+    <button @click="${this._onSaveClicked}">Save Changes</button>
+  </div>
+</div>
+
+<div ?hidden="${!this.exportUpdatedFile}" class="export">
+  Would you like to replace your local version of ${this.exportUpdatedFile}
+  with the latest revision?  
+  <a @click="${this._onReplaceFileClicked}"><iron-icon icon="file-download"></iron-icon> Replace File</a>
 </div>
 
 `;}
