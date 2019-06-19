@@ -35,9 +35,9 @@ class PgdmModel extends BaseModel {
     }
   }
 
-  async insert(filename, table, data) {
+  async insert(filename, table, data, revision) {
     try {
-      await model.insert(filename, null, table, data);
+      await model.insert(filename, null, table, data, {revision});
     } catch(e) {
       this.store.onInsertError(e);
     }
