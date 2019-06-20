@@ -12,6 +12,7 @@ class ImplAppStateModel extends AppStateModel {
     this.EventBus.on('pg-connection-update', e => {
       if( e.state === 'connected' ) this.setWindowLocation('upload');
       else if( e.state === 'disconnected' ) this.setWindowLocation('connect');
+      else if( e.state === 'error' ) this.setWindowLocation('connect');
     });
     
     this._setLocation();

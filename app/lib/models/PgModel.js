@@ -70,6 +70,7 @@ class PgModel extends BaseModel {
       await this.getTables();
     } catch(e) {
       this.store.setPgConnectError(e, serviceName);
+      console.error(e);
     }
     return this.store.data.connection;
   }

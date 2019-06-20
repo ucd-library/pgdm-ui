@@ -64,6 +64,7 @@ export default class AppPageConnect extends Mixin(LitElement)
   _onPgConnectionUpdate(e) {
     if( e.state === 'error' ) {
       this.connectErrorMessage = e.error.message;
+      alert(e.error.message);
       return;
     }
     this.connectErrorMessage = '';
