@@ -94,6 +94,10 @@ class PgModel extends BaseModel {
     for( let table of tables ) {
       let info = await pgdm.pg.query(`select * from information_schema.columns where table_name = $1`, [table.table_view]);
       table.tableViewInfo = info;
+debugger;
+
+// "insert_regional_variety_from_trig"
+// select * from information_schema.routines where routine_name = "insert_regional_variety_from_trig";
 
       let triggers = await pgdm.pg.query(`select * from information_schema.triggers where event_object_table = $1`, [table.table_view]);
       for( let trigger of triggers ) {
@@ -108,6 +112,7 @@ class PgModel extends BaseModel {
       }
       table.triggers = triggers;
     }
+    console.log(tables);
 
     this.store.setTablesLoaded(tables);
     return tables;
@@ -126,16 +131,16 @@ class PgModel extends BaseModel {
    * @returns {Promise} resolve to Object
    */
   async _getFunctionFromTrig(triggerFnName) {
-    let info = await pgdm.pg.querySingle(`select * from information_schema.routines where routine_name = $1`, [triggerFnName]);
+    let info = await pgdm.pg.querySingle(`select prosrc from pg_proc where proname = $1`, [triggerFnName]);
     if( !info ) return null;
 
-    if( !info.routine_definition ) return null;
-    let fnName = info.routine_definition.match(/PERFORM *(\w+) *\(/);
+    if( !info.prosrc ) return null;
+    let fnName = info.prosrc.match(/PERFORM *(\w+) *\(/);
 
     if( !fnName ) return null;
     fnName = fnName[1];
 
-    let requiredViewParams = info.routine_definition.replace(/\n/g,'').match(/PERFORM *\w+ *\((.*)\);/);
+    let requiredViewParams = info.prosrc.replace(/\n/g,'').match(/PERFORM *\w+ *\((.*)\);/);
     if( requiredViewParams ) {
       requiredViewParams = requiredViewParams[1]
         .split(',')

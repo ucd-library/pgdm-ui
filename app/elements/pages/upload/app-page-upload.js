@@ -140,14 +140,17 @@ export default class AppPageUpload extends Mixin(LitElement)
     this.tableView = view;
 
     let availableColumns = {};
-    this.tables.find(table => table.table_view === view)
-      .tableViewInfo
-      .forEach(item => availableColumns[item.column_name] = true);
-    
     let unknownColumns = [];
-    for( let col of this.currentSheetInfo.columns ) {
-      if( !availableColumns[col] ) {
-        unknownColumns.push(col);
+
+    
+    let tableViewInfo = this.tables.find(table => table.table_view === view).tableViewInfo;
+    tableViewInfo.forEach(item => availableColumns[item.column_name] = true);
+    
+    if( tableViewInfo.length > 0 ) {
+      for( let col of this.currentSheetInfo.columns ) {
+        if( !availableColumns[col] ) {
+          unknownColumns.push(col);
+        }
       }
     }
 
