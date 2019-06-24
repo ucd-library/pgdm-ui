@@ -178,7 +178,6 @@ export default class AppPageUpload extends Mixin(LitElement)
 
     let resp = {};
     if( this.isNewFile ) {
-      console.log(this.currentSheetInfo);
       resp = await this.PgdmModel.insert(filename, this.currentSheetInfo.source.table_view, this.currentSheetInfo.data, this.currentSheetInfo.revision);
       exportUpdatedFile = this.file;
     } else if( this.isReplaceFile ) {

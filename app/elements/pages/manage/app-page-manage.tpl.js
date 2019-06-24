@@ -61,6 +61,10 @@ ${sharedStyles}
     border-bottom: 1px dashed var(--app-light-gray);
     margin: 15px 0;
   }
+
+  paper-spinner-lite {
+    --paper-spinner-color: var(--app-primary-color);
+  }
 </style>  
 
 
@@ -98,8 +102,11 @@ ${sharedStyles}
 
 <input @change="${this._onFileInputChange}" id="directoryPicker" type="file" directory webkitdirectory style="display:none" />
 
-<div style="text-align: right" ?hidden="${this.hasError}">
+<div style="text-align: right" ?hidden="${this.hasError || this.running}">
   <button @click="${this._onDeleteClicked}">Delete File</button>  
   <button @click="${this._onDownloadClicked}">Download File</button>
+</div>
+<div style="text-align: right" ?hidden="${!this.running}">
+  <paper-spinner-lite ?hidden="${!this.running}" active></paper-spinner-lite>
 </div>
 `;}

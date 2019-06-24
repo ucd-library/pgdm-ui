@@ -10,7 +10,8 @@ export default class AppPageManage extends Mixin(LitElement)
     return {
       results : {type: Array},
       fileSelected : {type: Boolean},
-      searched : {type: Boolean}
+      searched : {type: Boolean},
+      running : {type: Boolean}
     }
   }
 
@@ -82,8 +83,13 @@ export default class AppPageManage extends Mixin(LitElement)
 
     if( !confirm(`Are you sure you want to delete ${activeFile.name}?`) ) return;
 
+    this.running = true;
     let resp = await this.PgdmModel.delete(activeFile.name);
+    this.running = false;
+
+    console.log(resp);
     if( resp.error ) {
+      console.error(resp.error);
       alert(resp.error.message);
     } else {
       this.query();

@@ -94,7 +94,6 @@ class PgModel extends BaseModel {
     for( let table of tables ) {
       let info = await pgdm.pg.query(`select * from information_schema.columns where table_name = $1`, [table.table_view]);
       table.tableViewInfo = info;
-debugger;
 
 // "insert_regional_variety_from_trig"
 // select * from information_schema.routines where routine_name = "insert_regional_variety_from_trig";
