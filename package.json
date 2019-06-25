@@ -52,7 +52,7 @@
     "@polymer/polymer": "^3.1.0",
     "@ucd-lib/cork-app-state": "^1.0.0",
     "@ucd-lib/cork-app-utils": "^4.2.3",
-    "@ucd-lib/pgdm": "0.0.12",
+    "@ucd-lib/pgdm": "0.0.13",
     "@vaadin/vaadin-upload": "^4.2.1",
     "csv": "^5.1.1",
     "electron-debug": "^3.0.0",
