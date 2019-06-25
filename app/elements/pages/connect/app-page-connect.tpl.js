@@ -79,6 +79,7 @@ ${sharedcss}
         id="dropdown" 
         .items="${this.services}" 
         .renderItem="${this._renderDropdownItem}"
+        .filter="${this._filterDropdown}"
         helpText="Select a connection">
       </app-dropdown>
     </div>

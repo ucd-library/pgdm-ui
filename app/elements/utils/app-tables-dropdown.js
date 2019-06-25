@@ -34,6 +34,11 @@ export default class AppTablesDropdown extends Mixin(LitElement)
     return item.table_view;
   }
 
+  _filterDropdown(item, filter) {
+    if( !filter ) return true;
+    return item.table_view.match(new RegExp(filter, 'i')) ? true : false;
+  }
+
   reset() {
     this.dropdown.setSelectedIndex(0);
   }

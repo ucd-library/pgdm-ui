@@ -77,8 +77,13 @@ export default class AppPageConnect extends Mixin(LitElement)
   _renderDropdownItem(item) {
     return html`<div style="font-weight:bold;line-height:16px">${item.name}</div>
     <div style="font-size: 12px; font-style:italic">
-      Host: ${item.host}, User: ${item.user}
+      Host: ${item.host}, User: ${item.user}, hidden: ${item.hidden}
     </div>`;
+  }
+
+  _filterDropdown(item, filter) {
+    if( !filter ) return true;
+    return item.name.match(new RegExp(filter, 'i')) ? true : false;
   }
 
   /**

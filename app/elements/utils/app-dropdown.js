@@ -51,7 +51,9 @@ export default class AppDropdown extends LitElement {
   _onInputClicked(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.opened = !this.opened;
+    this.opened = true;
+    this.shadowRoot.querySelector('input').value = '';
+    this._filter('');
   }
 
   _onDropdownClicked(e) {
@@ -62,7 +64,26 @@ export default class AppDropdown extends LitElement {
   updated(changedProperties) {
     if( changedProperties.has('opened') ) {
       this._onOpenedChanged();
+
+      if( this.opened ) {
+        this.shadowRoot.querySelector('input').focus();
+      }
     }
+
+    let ele = this.shadowRoot.querySelector('.dropdown .item[active]');
+    if( ele ) {
+      let scroll = this.shadowRoot.querySelector('#scroll');
+      let scrollWindow = scroll.scrollTop + scroll.offsetHeight;
+      let eleBottom = ele.offsetTop + ele.offsetHeight;
+
+      if( eleBottom > scrollWindow ) {
+        scroll.scrollTop = ele.offsetTop;
+      } else if( scroll.scrollTop > eleBottom ) {
+        scroll.scrollTop = ele.offsetTop;
+      }
+
+    }
+
     // } else if( changedProperties.has('selectedIndex') ) {
     //   this._setActiveIndex();
     // }
@@ -90,20 +111,40 @@ export default class AppDropdown extends LitElement {
   }
 
   _onUpArrow() {
-    if( !this.opened ) return;
+    if( !this.opened ) return;  
+    let cIndex = this.activeIndex;
+    
     this.activeIndex--;
     if( this.activeIndex < 0 ) {
       this.activeIndex = this.items.length-1;
     }
+
+    while( cIndex !== this.activeIndex && this.items[this.activeIndex]._hidden ) {
+      this.activeIndex--;
+      if( this.activeIndex < 0 ) {
+        this.activeIndex = this.items.length-1;
+      }
+    }
+    
     this._setActiveIndex();
   }
 
   _onDownArrow() {
     if( !this.opened ) return;
+    let cIndex = this.activeIndex;
+
     this.activeIndex++;
     if( this.activeIndex >= this.items.length ) {
       this.activeIndex = 0;
     }
+
+    while( cIndex !== this.activeIndex && this.items[this.activeIndex]._hidden ) {
+      this.activeIndex++;
+      if( this.activeIndex >= this.items.length ) {
+        this.activeIndex = 0;
+      }
+    }
+
     this._setActiveIndex();
   }
 
@@ -139,6 +180,29 @@ export default class AppDropdown extends LitElement {
       } 
     });
     this.dispatchEvent(event);
+  }
+
+  _onTextInputKeyup(e) {
+    if( e.which === 27 ) {
+      return this.opened = false;
+    } 
+    this._filter(e.currentTarget.value);
+  }
+
+  _filter(text) {
+    this.items.forEach(item => {
+      item._hidden = !this.filter(item, text);
+      if( item._hidden && item._active ) {
+        this.activeIndex = 0;
+        item._active = false;
+      }
+    });
+
+    this.requestUpdate();
+  }
+
+  filter(item, text) {
+    return true;
   }
 
 }

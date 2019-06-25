@@ -19,6 +19,7 @@ return html`
   id="dropdown"
   .helpText="Select a table"
   .items="${this.tables}"
-  .renderItem="${this._renderDropdownItem}">
+  .renderItem="${this._renderDropdownItem}"
+  .filter="${this._filterDropdown}">
 </app-dropdown>
 `;}

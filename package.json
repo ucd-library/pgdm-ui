@@ -1,6 +1,6 @@
 {
   "name": "@ucd-lib/pgdm-ui",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "GUI for PGDM",
   "main": "main.js",
   "scripts": {
