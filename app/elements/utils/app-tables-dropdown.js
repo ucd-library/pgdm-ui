@@ -27,7 +27,15 @@ export default class AppTablesDropdown extends Mixin(LitElement)
 
   _onPgdmTablesUpdate(e) {
     if( e.state !== 'loaded' ) return;
-    this.tables = [{table_view:' '}].concat(e.payload.map(t => Object.assign({}, t)));
+
+    let tables = e.payload.map(t => Object.assign({}, t));
+    tables.sort((a, b) => {
+      if( a.table_view > b.table_view ) return 1;
+      if( a.table_view < b.table_view ) return -1;
+      return 0;
+    });
+
+    this.tables = [{table_view:' '}].concat(tables);
   }
 
   _renderDropdownItem(item) {

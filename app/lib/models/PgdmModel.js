@@ -110,4 +110,4 @@ class PgdmModel extends BaseModel {
 
 }
 
-model.exports = new PgdmModel();
+module.exports = new PgdmModel();

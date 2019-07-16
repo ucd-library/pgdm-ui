@@ -2,7 +2,6 @@ import { LitElement } from 'lit-element';
 import render from "./app-dropdown.tpl.js"
 
 import "@polymer/iron-icons"
-import { isRegExp } from 'util';
 
 export default class AppDropdown extends LitElement {
 

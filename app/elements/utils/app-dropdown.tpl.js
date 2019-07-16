@@ -66,6 +66,10 @@ return html`
     background-color: var(--app-medium-gray);
   }
 
+  [hidden] {
+    display: none;
+  }
+
   /* .item:hover {
     background: var(--app-light-gray);
   } */
@@ -84,9 +88,9 @@ return html`
 <div class="dropdown" ?hidden="${!this.opened}" @click="${this._onDropdownClicked}" >
   <div id="scroll">
     ${this.items
-      .filter(item => item._hidden ? false : true)
+      // .filter(item => item._hidden ? false : true)
       .map((item, index) => 
-        html`<div class="item" index="${index}" ?active="${item._active}" @click="${this._onItemClicked}">
+        html`<div class="item" index="${index}" ?hidden="${item._hidden}" ?active="${item._active}" @click="${this._onItemClicked}">
           ${this.renderItem(item)}
         </div>`
       )}
