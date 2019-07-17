@@ -39,6 +39,7 @@ export default class AppTablesDropdown extends Mixin(LitElement)
   }
 
   _renderDropdownItem(item) {
+    if( !item ) return '';
     return item.table_view;
   }
 
@@ -48,6 +49,7 @@ export default class AppTablesDropdown extends Mixin(LitElement)
   }
 
   reset() {
+    if( this.tables.length === 0 ) return;
     this.dropdown.setSelectedIndex(0);
   }
 

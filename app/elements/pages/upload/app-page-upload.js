@@ -26,7 +26,8 @@ export default class AppPageUpload extends Mixin(LitElement)
       hasUnknownCols : {type: Boolean},
       availableColumns : {type: Array},
       analyzeData : {type: Object},
-      exportUpdatedFile : {type: String}
+      exportUpdatedFile : {type: String},
+      pageactive : {type: Boolean}
     }
   }
 
@@ -36,12 +37,26 @@ export default class AppPageUpload extends Mixin(LitElement)
 
     this.reset();
 
+    this.pageactive = false;
+    this.tables = [];
+    this.unknownColumns = [];
+    this.availableColumns = [];
+
     this._injectModel('PgdmModel', 'PgModel');
   }
 
   firstUpdated() {
     this.uploadPanel = this.byId('upload');
     this.tableDropDown = this.byId('tableDropDown');
+  }
+
+  updated(changes) {
+    if( changes.has('pageactive') ) {
+      if( this.pageactive ) {
+        this.reset();
+        this.uploadPanel.reset();
+      }
+    }
   }
 
   reset() {
@@ -207,7 +222,7 @@ export default class AppPageUpload extends Mixin(LitElement)
     if( e.state === 'started' ) {
       this.uploadPanel.setProgress(0, 0);
     } else if( e.state === 'inserting' ) {
-      this.uploadPanel.setProgress(e.payload.complete, e.payload.total);
+      this.uploadPanel.setProgress(e.payload.current, e.payload.total);
     }
   }
 
@@ -215,7 +230,7 @@ export default class AppPageUpload extends Mixin(LitElement)
     if( e.state === 'started' ) {
       this.uploadPanel.setProgress(0, 0);
     } else if( e.state === 'updating' ) {
-      this.uploadPanel.setProgress(e.payload.complete, e.payload.total);
+      this.uploadPanel.setProgress(e.payload.current, e.payload.total);
     }
   }
 
