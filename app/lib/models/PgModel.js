@@ -66,8 +66,8 @@ class PgModel extends BaseModel {
       client.on('end', () => {
         this.store.setPgDisconnected();
       });
-      this.store.setPgConnected(config, serviceName, client);
       await this.getTables();
+      this.store.setPgConnected(config, serviceName, client);
     } catch(e) {
       this.store.setPgConnectError(e, serviceName);
       console.error(e);

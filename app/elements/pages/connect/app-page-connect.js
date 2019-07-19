@@ -11,12 +11,11 @@ export default class AppPageConnect extends Mixin(LitElement)
 
   static get properties() {
     return {
-      view : {
-        type : String
-      },
+      view : {type : String},
       services : {type: Array},
       connectErrorMessage : {type: String},
-      loading : {type: Boolean}
+      loading : {type: Boolean},
+      tablesLoadingMessage : {type: String}
     }
   }
 
@@ -30,6 +29,7 @@ export default class AppPageConnect extends Mixin(LitElement)
     this.services = [];
     this.servicesMap = {};
     this.loading = false;
+    this.tablesLoadingMessage = '';
     this.PgModel.getServices();
   }
 
@@ -104,6 +104,14 @@ export default class AppPageConnect extends Mixin(LitElement)
     this.loading = true;
     await this.PgModel.connectService(selectedItem.name);
     this.loading = false;
+  }
+
+  _onPgTablesUpdate(e) {
+    if( e.state === 'loading' ) {
+      this.tablesLoadingMessage = 'Loading table information';
+    } else {
+      this.tablesLoadingMessage = '';
+    }
   }
 
   _onManageClicked() {

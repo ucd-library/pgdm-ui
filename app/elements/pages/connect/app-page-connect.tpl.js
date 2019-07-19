@@ -94,6 +94,7 @@ ${sharedcss}
     <div style="text-align:center">
       <app-error-panel .message="${this.connectErrorMessage}"></app-error-panel>
       <paper-spinner-lite ?hidden="${!this.loading}" active></paper-spinner-lite>
+      <span ?hidden="${!this.loading}">${this.tablesLoadingMessage}</span>
     </div>
     <div class="manage-connections">
       <div><a @click="${this._onManageClicked}">Manage Connections</a></div>
@@ -102,33 +103,5 @@ ${sharedcss}
   </div>
 </div>
 
-
-
-
-<!-- <iron-pages attr-for-selected="view" selected="${this.view}">
-  <app-connection-list view="list"
-    @connect="_onConnect"
-    @edit-connection="_onEditConnection">
-  </app-connection-list>
-  
-  <div view="edit">
-    <h3>Edit PostgreSQL Connection</h3>
-    <app-connection-edit 
-      id="editConnection" 
-      on-save="_onSaveEditConnection"
-      on-delete="_onDeleteEditConnection"
-      on-cancel="_onCancelEditConnection">
-    </app-connection-edit>
-  </div>
-
-  <div view="create">
-    <h3>Create PostgreSQL Connection</h3>
-    <app-connection-edit 
-      id="createConnection" 
-      on-save="_onSaveEditConnection"
-      on-cancel="_onCancelEditConnection">
-    </app-connection-edit>
-  </div>
-</iron-pages> -->
 
 `;}
