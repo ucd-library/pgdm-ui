@@ -60,6 +60,9 @@ class PgModel extends BaseModel {
 
   async connect(config, serviceName) {
     config = Object.assign({}, config);
+    // Never use PGSERVICE env var
+    config.ignoreServiceEnv = true;
+
     this.store.setPgConnecting(config, serviceName);
     try {
       let client = await pgdm.pg.connect(config, serviceName);
