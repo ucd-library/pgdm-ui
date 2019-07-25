@@ -2,13 +2,16 @@ import { LitElement } from 'lit-element';
 import render from "./app-tables-dropdown.tpl.js"
 
 import "./app-dropdown"
+import "./app-table-definition"
 
 export default class AppTablesDropdown extends Mixin(LitElement)
   .with(LitCorkUtils) {
 
   static get properties() {
     return {
-      tables : {type: Array}
+      tables : {type: Array},
+      selectedTable : {type: String},
+      hasSelectedTable : {type: Boolean}
     }
   }
 
@@ -19,10 +22,23 @@ export default class AppTablesDropdown extends Mixin(LitElement)
     this._injectModel('PgdmModel');
 
     this.tables = [];
+    this.hasTable = false;
+
+    this.addEventListener('select', e => {
+      console.log(e.detail);
+      this.selectedTable = e.detail.selectedItem.table_view.trim();
+      this.hasTable = this.selectedTable ? true : false;
+      console.log(this.selectedTable, this.hasTable);
+    });
   }
 
   firstUpdated() {
     this.dropdown = this.byId('dropdown');
+  }
+
+  _showTableDef() {
+    if( this.selectTable ) return;
+    document.querySelector('app-table-definition').show(this.selectedTable);
   }
 
   _onPgdmTablesUpdate(e) {

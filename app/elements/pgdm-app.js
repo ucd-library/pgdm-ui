@@ -24,7 +24,7 @@ import "./pages/upload/app-page-upload"
 import "./pages/manage/app-page-manage"
 
 // for development
-// window.autoConnect = 'localdev'
+// window.autoConnect = 'graindev'
 
 // TODO: https://github.com/electron-userland/electron-builder
 

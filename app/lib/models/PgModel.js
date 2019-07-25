@@ -114,10 +114,28 @@ class PgModel extends BaseModel {
       }
       table.triggers = triggers;
     }
-    console.log(tables);
 
     this.store.setTablesLoaded(tables);
+
     return tables;
+  }
+
+  getTableColumnDefinitions(name) {
+    let table = this.store.data.tables.payload.find(t => t.table_view === name);
+    if( !table ) throw new Error('Unknown table: '+name);
+
+    let columns = table.tableViewInfo.map(col => {
+        return {
+          name: col.column_name,
+          type: col.udt_name,
+          pk : table.uid === col.column_name ? true : false,
+          required : table.update.requiredViewParams.indexOf(col.column_name) > -1 && col.column_name !== table.uid ? true : false
+        }
+      })
+      .filter(col => col.name !== 'source_name')
+
+
+    return columns;
   }
 
   /**
