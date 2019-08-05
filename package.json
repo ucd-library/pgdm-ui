@@ -1,6 +1,6 @@
 {
   "name": "@ucd-lib/pgdm-ui",
-  "version": "0.0.13",
+  "version": "0.1.0",
   "description": "GUI for PGDM",
   "main": "main.js",
   "scripts": {
@@ -49,6 +49,7 @@
     "@polymer/iron-pages": "^3.0.1",
     "@polymer/paper-icon-button": "^3.0.2",
     "@polymer/paper-spinner": "^3.0.2",
+    "@polymer/paper-toast": "^3.0.1",
     "@polymer/polymer": "^3.1.0",
     "@ucd-lib/cork-app-state": "^1.0.0",
     "@ucd-lib/cork-app-utils": "^4.2.3",

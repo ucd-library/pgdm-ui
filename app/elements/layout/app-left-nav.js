@@ -38,6 +38,14 @@ export default class AppLeftNav extends Mixin(LitElement)
     this.AppStateModel.setWindowLocation('manage');
   }
 
+  _onAboutClicked() {
+    this.AppStateModel.setWindowLocation('about');
+  }
+
+  _onContactClicked() {
+    this.AppStateModel.setWindowLocation('contact');
+  }
+
 }
 
 customElements.define('app-left-nav', AppLeftNav);

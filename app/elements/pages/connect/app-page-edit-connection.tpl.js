@@ -61,7 +61,12 @@ ${sharedcss}
   }
 </style>  
 
-<h1>Database Connection</h1>
+<h1 style="display:flex">
+  <div style="flex:1">Database Connection</div>
+  <div ?hidden="${!this.newConnection}" style="font-size: 12px; cursor: pointer">
+    <a @click="${this.reset}">Reset</a>
+  </div>
+</h1>
 
 <div class="input-layout">
   <label for="name">Connection Name</label>

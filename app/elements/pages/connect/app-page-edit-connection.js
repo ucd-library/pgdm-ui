@@ -37,6 +37,7 @@ export default class AppPageEditConnection extends Mixin(LitElement)
       ssl : this.byId('ssl'),
       saveNew : this.byId('save-new')
     };
+    this.reset();
   }
 
   reset(service={}) {

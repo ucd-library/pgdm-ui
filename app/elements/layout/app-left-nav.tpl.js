@@ -73,10 +73,10 @@ return html`
   <div style="flex:1"></div>
   <div style="padding: 5px">
     <div class="link-line">
-      <a>About PGDM</a>
+      <a @click="${this._onAboutClicked}">About PGDM</a>
     </div>
     <div class="link-line">
-      <a>Contact</a>
+      <a @click="${this._onContactClicked}">Contact</a>
     </div>
     <div class="version">Version ${VERSION}</div>
   </div>

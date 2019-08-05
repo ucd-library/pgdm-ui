@@ -1,6 +1,8 @@
 import {PolymerElement, html} from "@polymer/polymer"
 import template from "./pgdm-app.html"
 
+const VERSION = require('../../package').version;
+
 // js library
 import lib from "../lib"
 window.APP = lib;
@@ -8,6 +10,7 @@ window.APP = lib;
 // npm imports
 import "@polymer/polymer"
 import "@polymer/iron-pages"
+import "@polymer/paper-toast"
 import "@ucd-lib/cork-app-utils"
 
 // styles
@@ -22,6 +25,8 @@ import "./pages/connect/app-page-edit-connection"
 import "./pages/connect/app-page-manage-connections"
 import "./pages/upload/app-page-upload"
 import "./pages/manage/app-page-manage"
+import "./pages/about/app-page-about"
+import "./pages/contact/app-page-contact"
 
 // for development
 // window.autoConnect = 'graindev'
@@ -60,7 +65,23 @@ export default class PgdmApp extends Mixin(PolymerElement)
     super.ready();
     window.location.hash = 'connect';
     // setTimeout(() => window.location.hash = 'manage', 500)
-    
+   
+    this._checkVersion();
+  }
+
+  async _checkVersion() {
+    try {
+      let res = await fetch('https://raw.githubusercontent.com/ucd-library/pgdm-ui/master/package.json');
+      let data = await res.json();
+
+      if( VERSION !== data.version ) {
+        let toast = document.querySelector('paper-toast');
+        toast.text = `You are running v${VERSION} of PGDM.  Current is v${data.version}`;
+        toast.open();
+      }
+    } catch(e) {
+      console.error('Failed to fetch current version', e);
+    }
   }
 
   /**
@@ -71,9 +92,9 @@ export default class PgdmApp extends Mixin(PolymerElement)
     this.page = e.location.page;
     this.fullLayout = (FULL_LAYOUT.indexOf(this.page) === -1);
 
-    if( this.page === 'new-connection' ) {
-      this.shadowRoot.querySelector(`[page="new-connection"]`).reset();
-    }
+    // if( this.page === 'new-connection' ) {
+    //   this.shadowRoot.querySelector(`[page="new-connection"]`).reset();
+    // }
   }
 
   _onEditConnection(e) {

@@ -13,26 +13,26 @@ app.disableHardwareAcceleration();
 let mainWindow
 
 function devTools(win = BrowserWindow.getFocusedWindow()) {
-	if (win) {
-		toggleDevTools(win);
-	}
+  if (win) {
+    toggleDevTools(win);
+  }
 }
 
 function toggleDevTools(win = BrowserWindow.getFocusedWindow()) {
-	if (win) {
-		const {webContents} = win;
-		if (webContents.isDevToolsOpened()) {
-			webContents.closeDevTools();
-		} else {
-			webContents.openDevTools({});
-		}
-	}
+  if (win) {
+    const {webContents} = win;
+    if (webContents.isDevToolsOpened()) {
+      webContents.closeDevTools();
+    } else {
+      webContents.openDevTools({});
+    }
+  }
 }
 
 function refresh(win = BrowserWindow.getFocusedWindow()) {
-	if (win) {
-		win.webContents.reloadIgnoringCache();
-	}
+  if (win) {
+    win.webContents.reloadIgnoringCache();
+  }
 }
 
 

@@ -25,10 +25,8 @@ export default class AppTablesDropdown extends Mixin(LitElement)
     this.hasTable = false;
 
     this.addEventListener('select', e => {
-      console.log(e.detail);
       this.selectedTable = e.detail.selectedItem.table_view.trim();
       this.hasTable = this.selectedTable ? true : false;
-      console.log(this.selectedTable, this.hasTable);
     });
   }
 

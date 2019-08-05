@@ -7,8 +7,7 @@ export default class AppPageManageConnections extends Mixin(LitElement)
 
   static get properties() {
     return {
-      services : {type: Array},
-      test : {type: Array}
+      services : {type: Array}
     }
   }
 
@@ -18,8 +17,6 @@ export default class AppPageManageConnections extends Mixin(LitElement)
   
     this.services = [];
     this.servicesMap = {};
-
-    this.test = ['foo', 'bar'];
 
     this._injectModel('PgModel', 'AppStateModel');
   }
