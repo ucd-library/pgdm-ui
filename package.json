@@ -5,8 +5,10 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder -ml",
+    "build" : "./build/build.sh",
+    "dist-mac-linux": "electron-builder -lm",
     "dist-windows": "electron-builder -w",
+    "dist-mac": "electron-builder -m",
     "watch": "cd app && webpack --config webpack-watch.config.js --watch --display-chunks"
   },
   "postinstall": "electron-builder install-app-deps",
@@ -23,7 +25,7 @@
   "devDependencies": {
     "@ucd-lib/cork-app-build": "^0.1.5",
     "electron": "^4.0.4",
-    "electron-builder": "^20.41.0",
+    "electron-builder": "^21.2.0",
     "webpack": "^4.28.4",
     "webpack-cli": "^3.2.3"
   },
@@ -36,12 +38,17 @@
       "./index.html",
       "./main.js"
     ],
+    "directories" : {
+      "buildResources" : "./build-resources"
+    },
     "mac": {
       "category": "public.app-category.developer-tools"
     },
     "win": {},
     "linux": {
-      "category": "Development"
+      "category": "Development",
+      "executableName": "pgdm-ui",
+      "artifactName": "${productName}-${version}.${ext}"
     }
   },
   "dependencies": {
