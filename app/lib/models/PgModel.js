@@ -94,22 +94,29 @@ class PgModel extends BaseModel {
     this.store.setTablesLoading();
     let tables = await pgdm.pg.query('select * from tables');
 
+    let schema = ((this.store.data.connection.payload || {}).pgdm || {}).schema;
+    
+    let oid = '';
+    try {
+      let result = await pgdm.pg.querySingle(`SELECT $1::regnamespace::oid;`, [schema]);
+      oid = result.oid;
+    } catch(e) {
+      console.error(e);
+    };
+
     for( let table of tables ) {
-      let info = await pgdm.pg.query(`select * from information_schema.columns where table_name = $1`, [table.table_view]);
+      let info = await pgdm.pg.query(`select * from information_schema.columns where table_name = $1 and table_schema = $2`, [table.table_view, schema]);
       table.tableViewInfo = info;
 
-// "insert_regional_variety_from_trig"
-// select * from information_schema.routines where routine_name = "insert_regional_variety_from_trig";
-
-      let triggers = await pgdm.pg.query(`select * from information_schema.triggers where event_object_table = $1`, [table.table_view]);
+      let triggers = await pgdm.pg.query(`select * from information_schema.triggers where event_object_table = $1 and trigger_schema = $2`, [table.table_view, schema]);
       for( let trigger of triggers ) {
         trigger.function = trigger.action_statement.replace(/EXECUTE PROCEDURE /, '').replace(/\(\)/, '').trim();
         if( trigger.event_manipulation === 'INSERT' ) {
           trigger.type = 'insert';
-          table.insert = await this._getFunctionFromTrig(trigger.function)
+          table.insert = await this._getFunctionFromTrig(trigger.function, oid, schema)
         } else if( trigger.event_manipulation === 'UPDATE' ) {
           trigger.type = 'update';
-          table.update = await this._getFunctionFromTrig(trigger.function)
+          table.update = await this._getFunctionFromTrig(trigger.function, oid, schema)
         }
       }
       table.triggers = triggers;
@@ -150,8 +157,14 @@ class PgModel extends BaseModel {
    * 
    * @returns {Promise} resolve to Object
    */
-  async _getFunctionFromTrig(triggerFnName) {
-    let info = await pgdm.pg.querySingle(`select prosrc from pg_proc where proname = $1`, [triggerFnName]);
+  async _getFunctionFromTrig(triggerFnName, oid, schema) {
+    let args = [triggerFnName];
+    let query = 'select prosrc from pg_proc where proname = $1';
+    if( oid ) {
+      args.push(oid);
+      query = 'select prosrc from pg_proc where proname = $1 and pronamespace = $2';
+    }
+    let info = await pgdm.pg.querySingle(query, args);
     if( !info ) return null;
 
     if( !info.prosrc ) return null;
@@ -168,7 +181,7 @@ class PgModel extends BaseModel {
         .filter(val => val !== 'source_name')
     }
 
-    info = await pgdm.pg.querySingle(`select specific_name from information_schema.routines where routine_name = $1`, [fnName]);
+    info = await pgdm.pg.querySingle(`select specific_name from information_schema.routines where routine_name = $1 and specific_schema = $2`, [fnName, schema]);
     return {
       requiredViewParams,
       function : fnName,
