@@ -1,6 +1,6 @@
 {
   "name": "@ucd-lib/pgdm-ui",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "GUI for PGDM",
   "main": "main.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "dist-mac-linux": "electron-builder -lm",
     "dist-windows": "electron-builder -w",
     "dist-mac": "electron-builder -m",
-    "watch": "cd app && webpack --config webpack-watch.config.js --watch --display-chunks"
+    "watch": "cd app && webpack --config webpack-watch.config.js --watch"
   },
   "postinstall": "electron-builder install-app-deps",
   "repository": "",
@@ -23,11 +23,11 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "@ucd-lib/cork-app-build": "^0.1.5",
+    "@ucd-lib/cork-app-build": "^0.4.2",
     "electron": "^4.0.4",
-    "electron-builder": "^21.2.0",
-    "webpack": "^4.28.4",
-    "webpack-cli": "^3.2.3"
+    "electron-builder": "^23.0.2",
+    "webpack": "^5.76.1",
+    "webpack-cli": "^5.0.1"
   },
   "build": {
     "appId": "edu.ucdavis.library.pgdm",
@@ -60,13 +60,13 @@
     "@polymer/polymer": "^3.1.0",
     "@ucd-lib/cork-app-state": "^1.0.0",
     "@ucd-lib/cork-app-utils": "^4.2.3",
-    "@ucd-lib/pgdm": "0.0.17",
+    "@ucd-lib/pgdm": "1.0.3",
     "@vaadin/vaadin-upload": "^4.2.1",
     "csv": "^5.1.1",
     "electron-debug": "^3.0.0",
     "lit-element": "^2.1.0",
     "multi-ini": "^2.0.0",
-    "pg": "^7.8.1",
-    "pg-cursor": "^2.0.0"
+    "pg": "^8.12.0",
+    "pg-cursor": "^2.11.0"
   }
 }

@@ -92,7 +92,7 @@ class PgModel extends BaseModel {
    */
   async getTables() {
     this.store.setTablesLoading();
-    let tables = await pgdm.pg.query('select * from tables');
+    let tables = await pgdm.pg.query('select * from '+pgdm.config.TABLES.PK);
 
     let schema = ((this.store.data.connection.payload || {}).pgdm || {}).schema;
     
