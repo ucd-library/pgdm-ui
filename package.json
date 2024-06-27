@@ -24,8 +24,8 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "@ucd-lib/cork-app-build": "^0.4.2",
-    "electron": "^4.0.4",
-    "electron-builder": "^23.0.2",
+    "electron": "^31.1.0",
+    "electron-builder": "^24.13.3",
     "webpack": "^5.76.1",
     "webpack-cli": "^5.0.1"
   },
@@ -42,7 +42,16 @@
       "buildResources": "./build-resources"
     },
     "mac": {
-      "category": "public.app-category.developer-tools"
+      "category": "public.app-category.developer-tools",
+      "target": [
+          {
+            "target": "default",
+            "arch": [
+              "x64",
+              "arm64"
+            ]
+          }
+        ]
     },
     "win": {},
     "linux": {
