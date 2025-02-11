@@ -111,9 +111,15 @@ export default class AppPageManage extends Mixin(LitElement)
 
     let files = e.currentTarget.files;
     if( !files.length ) return;
-    
+
+    let folder = e.currentTarget.files[0].path;
+    let stats = fs.statSync(folder);
+    if( !stats.isDirectory() ) {
+      folder = path.dirname(folder);
+    }
+
     let activeFile = this._getActiveFile().name;
-    let file = path.join(files[0].path, activeFile);
+    let file = path.join(folder, activeFile);
 
     if( fs.existsSync(file+'.csv') ) {
       if( !confirm(file+'.csv already exists.  Are you sure you want to overwrite?') ) return;

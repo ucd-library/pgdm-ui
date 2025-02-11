@@ -96,6 +96,9 @@ export default class AppSourceUpload extends LitElement {
   }
 
   _onDrop(e) {
+    // Stop the browser from redirecting (opening a new window) when dropping the file
+    e.preventDefault();
+
     this.dragActive = false;
     if (e.dataTransfer.items) {
       for (var i = 0; i < e.dataTransfer.items.length; i++) {
