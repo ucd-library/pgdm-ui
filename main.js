@@ -2,6 +2,7 @@
 const {app, BrowserWindow} = require('electron');
 const localShortcut = require('electron-localshortcut');
 const isDev = require('electron-is-dev');
+const path = require('path');
 // const debug = require('electron-debug');
 
 const isMacOS = process.platform === 'darwin';

@@ -1,5 +1,6 @@
 import { LitElement, html } from 'lit-element';
 import render from "./app-source-upload.tpl.js"
+import {webUtils} from 'electron';
 
 
 export default class AppSourceUpload extends LitElement {
@@ -100,13 +101,11 @@ export default class AppSourceUpload extends LitElement {
     e.preventDefault();
 
     this.dragActive = false;
-    if (e.dataTransfer.items) {
-      for (var i = 0; i < e.dataTransfer.items.length; i++) {
-        if (e.dataTransfer.items[i].kind === 'file') {
-          var file = e.dataTransfer.items[i].getAsFile();
-          this._fireEvent(file.path);
+    if (e.dataTransfer.files) {
+      for (var i = 0; i < e.dataTransfer.files.length; i++) {
+          var filepath = webUtils.getPathForFile(e.dataTransfer.files[i]);
+          this._fireEvent(filepath);
           return;
-        }
       }
     }
   }
@@ -127,6 +126,7 @@ export default class AppSourceUpload extends LitElement {
   }
 
   _onFileInputChange(e) {
+    debugger;
     let files = this.shadowRoot.querySelector('#fileInput').files;
     for( let file of files ) {
       this._fireEvent(file.path);

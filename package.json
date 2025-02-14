@@ -24,8 +24,8 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "@ucd-lib/cork-app-build": "^0.4.2",
-    "electron": "^31.1.0",
-    "electron-builder": "^24.13.3",
+    "electron": "^34.1.1",
+    "electron-builder": "^25.1.8",
     "webpack": "^5.76.1",
     "webpack-cli": "^5.0.1"
   },
