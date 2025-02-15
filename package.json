@@ -6,9 +6,9 @@
   "scripts": {
     "start": "electron .",
     "build": "./build/build.sh",
-    "dist-linux": "electron-builder -l",
-    "dist-windows": "electron-builder -w",
-    "dist-mac": "electron-builder -m",
+    "dist-linux": "electron-builder -l --publish never",
+    "dist-windows": "electron-builder -w --publish never",
+    "dist-mac": "electron-builder -m --publish never",
     "dist-client": "cd app && webpack --config webpack-watch.config.js",
     "watch": "cd app && webpack --config webpack-watch.config.js --watch"
   },
@@ -62,10 +62,6 @@
       "category": "Development",
       "executableName": "pgdm-ui",
       "artifactName": "${productName}-${version}.${ext}"
-    },
-    "publish": {
-      "provider": "github",
-      "releaseType": "draft"
     }
   },
   "dependencies": {
