@@ -8,7 +8,8 @@
     "build": "./build/build.sh",
     "dist-linux": "electron-builder -l --publish never",
     "dist-windows": "electron-builder -w --publish never",
-    "dist-mac": "electron-builder -m --publish never",
+    "dist-mac-intel": "electron-builder -m --x64 --publish never",
+    "dist-mac-arm": "electron-builder -m --arm64 --publish never",
     "dist-client": "cd app && webpack --config webpack-watch.config.js",
     "watch": "cd app && webpack --config webpack-watch.config.js --watch"
   },
