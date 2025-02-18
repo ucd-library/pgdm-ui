@@ -31,6 +31,12 @@ jobs:
       # - name: Install Electron Builder
       #   run: npm install electron-builder --save-dev
 
+      - name: Decode macOS certificate
+        run: |
+          echo "$CSC_BASE64_CONTENT" | base64 --decode > certificate.p12
+        env:
+          CSC_BASE64_CONTENT: ${{ secrets.CSC_BASE64_CONTENT }}
+
       - name: Build (Windows)
         if: matrix.os == 'windows-latest'
         run: npm run dist-windows
@@ -38,10 +44,16 @@ jobs:
       - name: Build (macOS Intel)
         if: matrix.os == 'macos-13'
         run: npm run dist-mac-intel
+        env:
+          CSC_LINK: certificate.p12
+          CSC_KEY_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
 
       - name: Build (macOS ARM)
         if: matrix.os == 'macos-14'
         run: npm run dist-mac-arm
+        env:
+          CSC_LINK: certificate.p12
+          CSC_KEY_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
 
       - name: Build (Linux)
         if: matrix.os == 'ubuntu-latest'
