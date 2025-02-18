@@ -32,6 +32,7 @@ jobs:
       #   run: npm install electron-builder --save-dev
 
       - name: Decode macOS certificate
+        if: matrix.os != 'windows-latest'
         run: |
           echo "$CSC_BASE64_CONTENT" | base64 --decode > certificate.p12
         env:
