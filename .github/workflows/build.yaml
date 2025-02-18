@@ -46,14 +46,14 @@ jobs:
         run: npm run dist-mac-intel
         env:
           CSC_LINK: certificate.p12
-          CSC_KEY_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
+          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
 
       - name: Build (macOS ARM)
         if: matrix.os == 'macos-14'
         run: npm run dist-mac-arm
         env:
           CSC_LINK: certificate.p12
-          CSC_KEY_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
+          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
 
       - name: Build (Linux)
         if: matrix.os == 'ubuntu-latest'
