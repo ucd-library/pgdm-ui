@@ -10,5 +10,7 @@ set -e
 cd ..
 rm -rf dist
 
-npm run dist-mac-linux
+npm run dist-linux
+npm run dist-mac-intel
+npm run dist-mac-arm
 docker run -ti --rm -v $(pwd)/dist:/build/dist pgdm-ui-build:latest bash -c "npm run dist-windows"

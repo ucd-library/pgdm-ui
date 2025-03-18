@@ -2,6 +2,7 @@ import { LitElement } from 'lit-element';
 import render from "./app-page-manage.tpl.js"
 import path from "path"
 import fs from "fs"
+import {webUtils} from 'electron';
 
 export default class AppPageManage extends Mixin(LitElement)
   .with(LitCorkUtils) {
@@ -112,7 +113,9 @@ export default class AppPageManage extends Mixin(LitElement)
     let files = e.currentTarget.files;
     if( !files.length ) return;
 
-    let folder = e.currentTarget.files[0].path;
+    var filepath = webUtils.getPathForFile(e.currentTarget.files[0]);
+
+    let folder = filepath;
     let stats = fs.statSync(folder);
     if( !stats.isDirectory() ) {
       folder = path.dirname(folder);
