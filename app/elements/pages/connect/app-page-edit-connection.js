@@ -52,8 +52,11 @@ export default class AppPageEditConnection extends Mixin(LitElement)
     this.inputs.database.value = service.dbname || 'postgres';
     this.inputs.schema.value = service.pgdm.schema || '';
     
-    if( service.sslmode === 'require' ) this.inputs.ssl.setAttribute('checked', 'checked');
-    else this.inputs.ssl.removeAttribute('checked');
+    if( this.PgModel.SSL_MODES.includes(service.sslmode) ) {
+      this.inputs.ssl.setAttribute('checked', 'checked');
+    } else {
+      this.inputs.ssl.removeAttribute('checked');
+    }
 
     this.inputs.saveNew.removeAttribute('checked');
 

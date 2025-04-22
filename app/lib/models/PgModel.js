@@ -9,6 +9,8 @@ class PgModel extends BaseModel {
     super();
     this.store = PgStore;
 
+    this.SSL_MODES = ['require', 'verify-ca', 'verify-full'];
+
     this.register('PgModel');
   }
 
@@ -20,7 +22,7 @@ class PgModel extends BaseModel {
         database: config.dbname,
         password: config.password || '',
         port: parseInt(config.port) || 5432,
-        ssl : config.sslmode === 'require' ? true : false
+        ssl : this.SSL_MODES.includes(config.sslmode) ? true : false
       });
       await client.connect();
       await client.end();
